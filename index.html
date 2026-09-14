@@ -30,61 +30,39 @@
 
     .lock-screen-container { justify-content: center; align-items: center; padding: 1.5rem; display: flex; flex-direction: column; width: 100%; }
     .passcode-input, .api-input { width: 100%; max-width: 300px; padding: 0.8rem; text-align: center; font-size: 1.1rem; border: 2px solid var(--border-light); border-radius: 10px; margin-bottom: 1rem; background: rgba(255,255,255,0.9); transition: border-color 0.2s; }
-    .passcode-input { letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
+    .passcode-input { letter-spacing: 4px; font-weight: bold; }
     .api-input { font-family: monospace; font-size: 0.9rem; letter-spacing: normal; text-transform: none; font-weight: normal; }
     .passcode-input:focus, .api-input:focus { outline: none; border-color: var(--text-main); }
     .error-msg { color: #e53e3e; font-size: 0.85rem; display: none; margin-top: 1rem; text-align: center; font-weight: bold; margin-bottom: 1rem; }
-    .vault-btn { background: transparent; color: var(--text-main); border: 1px dashed var(--ink-color); font-size: 0.85rem; margin-top: 1rem; padding: 0.7rem 1rem; font-weight: bold; }
 
     #screen-onboarding { padding: 1.5rem; padding-bottom: 4rem; overflow-y: auto; text-align: center; }
-
     #screen-dashboard { justify-content: flex-start; align-items: center; padding: 1.5rem; padding-bottom: 6rem; overflow-y: auto;}
+    
     .month-container { width: 100%; max-width: 600px; margin-bottom: 2.5rem; }
     .month-header { text-align: left; padding-left: 8px; margin-bottom: 1rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem; }
-    
     .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; justify-items: center; padding-left: 0; }
     .weekday-header { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; padding-bottom: 6px; text-align: center; }
     
-    .map-node { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; position: relative; z-index: 2; flex-shrink: 0; user-select: none; -webkit-user-select: none; }
+    .map-node { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; position: relative; z-index: 2; flex-shrink: 0; user-select: none; }
     .map-node.completed { background-color: var(--ink-color); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 2px solid transparent; }
     .map-node.locked { background-color: rgba(255,255,255,0.8); color: var(--text-main); opacity: 1; border: 1px solid var(--border-light); cursor: not-allowed; }
     .map-node.available { background-color: transparent; color: var(--ink-color); border: 2px solid var(--ink-color); opacity: 0.8; }
     .map-node.past-ignored { background-color: transparent; color: var(--text-muted); opacity: 0.3; border: 1px dashed var(--border-light); cursor: not-allowed; }
 
-    /* Super Glow Active Date Animation */
-    .map-node.active { 
-      background-color: var(--ink-color); 
-      color: white; 
-      border: 3px solid white; 
-      box-shadow: 0 0 15px var(--ink-color), 0 0 30px var(--ink-color); 
-      transform: scale(1.2); 
-      font-weight: bold;
-      animation: superGlow 1.2s infinite alternate; 
-      z-index: 10; 
-    }
-    @keyframes superGlow { 
-      0% { box-shadow: 0 0 8px rgba(217, 119, 87, 0.6); transform: scale(1.15); } 
-      100% { box-shadow: 0 0 25px rgba(217, 119, 87, 1), 0 0 50px rgba(217, 119, 87, 0.8); transform: scale(1.25); } 
-    }
+    .map-node.active { background-color: var(--ink-color); color: white; border: 3px solid white; box-shadow: 0 0 15px var(--ink-color), 0 0 30px var(--ink-color); transform: scale(1.2); font-weight: bold; animation: superGlow 1.2s infinite alternate; z-index: 10; }
+    @keyframes superGlow { 0% { box-shadow: 0 0 8px rgba(217, 119, 87, 0.6); transform: scale(1.15); } 100% { box-shadow: 0 0 25px rgba(217, 119, 87, 1), 0 0 50px rgba(217, 119, 87, 0.8); transform: scale(1.25); } }
 
-    .map-node.sunday-bingo { border: 2px dashed var(--ink-color); }
-    .map-node.sunday-bingo::after { content: '★'; position: absolute; top: -4px; right: -2px; font-size: 0.65rem; color: var(--ink-color); }
-    .map-node.active.sunday-bingo::after { color: white; } /* Keep star visible on colored background */
-
-    /* Scratch Card Affirmation */
     .affirmation-wrapper { position: relative; width: 100%; max-width: 350px; margin: 0 auto 2rem; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); min-height: 80px; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
     .affirmation-text { font-size: 1rem; font-style: italic; color: var(--ink-color); font-weight: 600; text-align: center; }
     #scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 10;}
     #scratch-canvas.revealed { animation: slideOut 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
 
-    /* Vibe Slider */
     .slider-container { width: 100%; max-width: 350px; margin: 2rem auto 3rem auto; text-align: center; }
     input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 32px; width: 32px; border-radius: 50%; background: var(--ink-color); cursor: pointer; margin-top: -12px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 3px solid white;}
     input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: var(--border-light); border-radius: 4px; }
-    .sun-icon { font-size: 5rem; transition: all 0.4s ease; display: inline-block; margin-bottom: 1.5rem; text-shadow: 0 0 0 rgba(255,215,0,0); }
+    .sun-icon { font-size: 5rem; transition: all 0.4s ease; display: inline-block; margin-bottom: 1.5rem; }
 
-    /* Accordion Goals */
     .accordion-item { background: rgba(255,255,255,0.8); border-radius: 10px; margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border-light); text-align: left; transition: all 0.3s ease;}
     .accordion-header { padding: 1rem; font-weight: 600; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .accordion-body { max-height: 0; padding: 0 1rem; transition: all 0.3s ease; opacity: 0; }
@@ -93,7 +71,6 @@
     .goal-check-label input { width: 18px; height: 18px; accent-color: var(--ink-color); }
     #goal-counter { font-size: 0.85rem; font-weight: bold; color: var(--ink-color); margin-top: -10px; margin-bottom: 20px;}
 
-    /* Card Stack Review */
     .card-stack { position: relative; width: 100%; max-width: 350px; height: 280px; margin: 0 auto 2rem auto; perspective: 1000px; }
     .review-card { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; border-radius: 16px; padding: 2rem 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: all 0.5s ease; opacity: 0; transform: translateX(50px) scale(0.9); pointer-events: none;}
     .review-card.active { opacity: 1; transform: translateX(0) scale(1); z-index: 10; pointer-events: auto;}
@@ -102,7 +79,6 @@
     .rating-chip { padding: 0.8rem; background: var(--border-light); border-radius: 10px; border: none; font-weight: 600; color: var(--text-main); font-size: 0.95rem; cursor: pointer; transition: 0.2s; }
     .rating-chip:active { background: var(--ink-color); color: white;}
 
-    /* Collage Curation Grid */
     .curation-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 500px; margin: 0 auto 2rem auto; }
     .curation-item { position: relative; width: 100%; aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: pointer; }
     .curation-img { width: 100%; height: 100%; object-fit: cover; transition: all 0.2s; }
@@ -112,84 +88,56 @@
 
     .journal-content { padding: 1rem 1.2rem 6rem 1.2rem; max-width: 800px; margin: 0 auto; width: 100%; }
     .question-block { margin-bottom: 1.5rem; }
-    .question-text { font-size: 1rem; font-weight: 500; margin-bottom: 0.6rem; line-height: 1.4; text-align: center;}
     textarea, input[type="text"].journal-input { width: 100%; border: 1px solid var(--border-light); border-radius: 10px; padding: 0.8rem; font-size: 0.95rem; background: rgba(255,255,255,0.9); resize: none; transition: border-color 0.2s; }
     textarea:focus, input[type="text"].journal-input:focus { outline: none; border-color: var(--ink-color); }
-    .toggle-group { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center;}
-    .toggle-btn { flex: 1; padding: 0.6rem; border: 1px solid var(--border-light); border-radius: 8px; background: white; font-weight: 600; color: var(--text-main); cursor: pointer; transition: all 0.2s; font-size: 0.9rem;}
-    .toggle-btn.selected { background-color: var(--ink-color); color: white; border-color: var(--ink-color); }
-    .elaboration-field { display: none; margin-top: 0.6rem; animation: fadeIn 0.3s ease; }
-    .mic-btn { display: inline-flex; align-items: center; gap: 5px; background: #e2e8f0; color: #2d3748; border: none; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; margin-bottom: 8px; transition: all 0.3s ease; }
+    
+    .mic-btn { display: inline-flex; align-items: center; gap: 5px; background: #e2e8f0; color: #2d3748; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; margin-bottom: 8px; font-weight: 600; transition: all 0.3s ease; }
     .mic-btn.recording { background: #e53e3e; color: white; box-shadow: 0 0 15px rgba(229, 62, 62, 0.6); animation: pulse 1.5s infinite; }
-
-    #screen-climax { position: relative; justify-content: center; align-items: center; padding: 2rem; overflow-y: auto; }
-    #climax-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 0; filter: brightness(0.6); }
-    #climax-capture-area { position: relative; z-index: 1; text-align: center; color: white; padding: 2rem; border-radius: 16px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); max-width: 500px; width: 100%; }
-    .climax-echo { font-size: 1.1rem; font-style: italic; margin-bottom: 1.5rem; line-height: 1.5; color: #fdfdfd;}
-    .climax-review { font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; color: rgba(255,255,255,0.95); border-left: 3px solid white; padding-left: 12px; text-align: left; display: block !important; }
-    .climax-quote { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.3; }
-    .climax-author { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.7); }
-
-    .bingo-tile.bingo-winning-line { background-color: #4a7c59 !important; color: white !important; border-color: #4a7c59 !important; transform: scale(1.02); }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
     .file-upload-wrapper { position: relative; width: 100%; max-width: 400px; margin: 0 auto;}
     .file-upload-label { display: block; padding: 1rem; border: 2px dashed var(--ink-color); border-radius: 10px; text-align: center; color: var(--ink-color); font-weight: 600; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.5);}
     .file-upload-input { display: none; }
+
+    .quick-ticks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 2.5rem; }
+    .tick-chip { padding: 0.8rem 1rem; border: 1px solid var(--border-light); border-radius: 12px; background: rgba(255,255,255,0.8); color: var(--text-main); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; user-select: none; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .tick-chip.selected { background-color: var(--ink-color); color: white; border-color: var(--ink-color); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(217, 119, 87, 0.4); font-weight: 600; }
+    .tick-chip.anchor-tick { border-left: 4px solid var(--ink-color); }
+
+    .toggle-group { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;}
+    .toggle-btn { flex: 1; min-width: 100px; padding: 0.6rem; border: 1px solid var(--border-light); border-radius: 20px; background: white; font-weight: 600; color: var(--text-main); cursor: pointer; transition: all 0.2s; font-size: 0.85rem;}
+    .toggle-btn.selected { background-color: var(--ink-color); color: white; border-color: var(--ink-color); box-shadow: 0 4px 10px rgba(217, 119, 87, 0.3);}
+
+    #screen-climax { position: relative; justify-content: center; align-items: center; padding: 2rem; overflow-y: auto; }
+    #climax-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 0; filter: brightness(0.6); }
+    #climax-capture-area { position: relative; z-index: 1; text-align: left; color: white; padding: 2rem; border-radius: 16px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); max-width: 500px; width: 100%; display: flex; flex-direction: column; gap: 15px; }
+    .climax-date { font-size: 0.85rem; font-weight: bold; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 1px; }
+    .climax-vibe { font-size: 1.2rem; font-weight: bold; }
+    .climax-ticks { font-size: 0.9rem; line-height: 1.5; color: rgba(255,255,255,0.9); font-style: italic; }
+    .climax-text { font-size: 1.1rem; line-height: 1.6; border-left: 3px solid var(--ink-color); padding-left: 15px; }
+    .climax-echo-container { margin-top: 15px; background: rgba(255,255,255,0.15); padding: 15px; border-radius: 10px; }
+    .climax-echo { font-size: 0.95rem; line-height: 1.5; color: #fdfdfd; font-weight: 500;}
+    .translate-btn { background: transparent; border: 1px solid rgba(255,255,255,0.4); color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+    .translate-btn:active { background: rgba(255,255,255,0.2); }
+
+    .stat-row { display: flex; flex-direction: column; padding: 8px 0; border-bottom: 1px solid var(--border-light); font-size: 0.9rem; }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-header { display: flex; justify-content: space-between; margin-bottom: 5px; color: var(--text-main); font-weight: 600;}
+    .stat-bar-bg { width: 100%; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden; }
+    .stat-bar-fill { height: 100%; background: var(--ink-color); border-radius: 4px; transition: width 1s ease-out; }
 
     #pdf-print-preview { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #e2e8f0; z-index: 10000; overflow-y: auto; overflow-x: hidden; }
     .pdf-page { width: 800px; height: 1118px; background: #fcf4f1; margin: 0 auto; position: relative; overflow: hidden; padding: 60px; box-sizing: border-box; }
     #pdf-header-bar { width: 100%; background: var(--text-main); color: white; padding: 15px; text-align: center; position: fixed; top: 0; left: 0; z-index: 10001; font-weight: bold; font-size: 1.2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     #dynamic-loading-quote { font-size: 0.9rem; font-weight: normal; font-style: italic; margin-top: 8px; color: rgba(255,255,255,0.8); animation: fadeText 3s infinite; }
     #pdf-pages-wrapper { padding-top: 80px; width: 100%; display: block; background: #2d3748;} 
+    
+    #tapestry-watermark { position: fixed; bottom: 12px; width: 100%; text-align: center; font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); opacity: 0.5; z-index: 9999; pointer-events: none; text-transform: uppercase; font-weight: 600; }
 
-    #tapestry-watermark {
-      position: fixed;
-      bottom: 12px;
-      width: 100%;
-      text-align: center;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      opacity: 0.5;
-      z-index: 9999;
-      pointer-events: none;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    /* Blooming Mandala Loader */
-    .flower-container {
-      position: relative;
-      width: 80px;
-      height: 80px;
-      margin-bottom: 2.5rem;
-      animation: spin 12s linear infinite;
-    }
-    .flower-petal {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 40px;
-      height: 40px;
-      background: var(--ink-color);
-      transform-origin: bottom right;
-      margin-top: -40px;
-      margin-left: -40px;
-      animation: petal-bloom 2s ease-in-out infinite alternate;
-    }
-    .flower-petal:nth-child(1) { --rot: 0deg; }
-    .flower-petal:nth-child(2) { --rot: 45deg; animation-delay: 0.1s;}
-    .flower-petal:nth-child(3) { --rot: 90deg; animation-delay: 0.2s;}
-    .flower-petal:nth-child(4) { --rot: 135deg; animation-delay: 0.3s;}
-    .flower-petal:nth-child(5) { --rot: 180deg; animation-delay: 0.4s;}
-    .flower-petal:nth-child(6) { --rot: 225deg; animation-delay: 0.5s;}
-    .flower-petal:nth-child(7) { --rot: 270deg; animation-delay: 0.6s;}
-    .flower-petal:nth-child(8) { --rot: 315deg; animation-delay: 0.7s;}
-
-    @keyframes petal-bloom {
-      0% { transform: rotate(var(--rot)) scale(0.2); border-radius: 50%; opacity: 0.2; }
-      100% { transform: rotate(var(--rot)) scale(1.1); border-radius: 50% 50% 0 50%; opacity: 0.7; }
-    }
+    .flower-container { position: relative; width: 80px; height: 80px; margin-bottom: 2.5rem; animation: spin 12s linear infinite; }
+    .flower-petal { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: var(--ink-color); transform-origin: bottom right; margin-top: -40px; margin-left: -40px; animation: petal-bloom 2s ease-in-out infinite alternate; }
+    .flower-petal:nth-child(1) { --rot: 0deg; } .flower-petal:nth-child(2) { --rot: 45deg; animation-delay: 0.1s;} .flower-petal:nth-child(3) { --rot: 90deg; animation-delay: 0.2s;} .flower-petal:nth-child(4) { --rot: 135deg; animation-delay: 0.3s;} .flower-petal:nth-child(5) { --rot: 180deg; animation-delay: 0.4s;} .flower-petal:nth-child(6) { --rot: 225deg; animation-delay: 0.5s;} .flower-petal:nth-child(7) { --rot: 270deg; animation-delay: 0.6s;} .flower-petal:nth-child(8) { --rot: 315deg; animation-delay: 0.7s;}
+    @keyframes petal-bloom { 0% { transform: rotate(var(--rot)) scale(0.2); border-radius: 50%; opacity: 0.2; } 100% { transform: rotate(var(--rot)) scale(1.1); border-radius: 50% 50% 0 50%; opacity: 0.7; } }
     @keyframes spin { 100% { transform: rotate(360deg); } }
   </style>
 </head>
@@ -198,20 +146,13 @@
   <!-- DISTRACTION LOADER -->
   <div id="boot-loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 99999; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.6s ease;">
     <div class="flower-container">
-      <div class="flower-petal"></div>
-      <div class="flower-petal"></div>
-      <div class="flower-petal"></div>
-      <div class="flower-petal"></div>
-      <div class="flower-petal"></div>
-      <div class="flower-petal"></div>
-      <div class="flower-petal"></div>
-      <div class="flower-petal"></div>
+      <div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div>
+      <div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div>
     </div>
     <h2 style="color: var(--ink-color); margin-bottom: 0.5rem;">Unlocking Vault...</h2>
     <p style="color: var(--text-muted); font-style: italic; font-size: 0.95rem; animation: fadeText 3s infinite;">Gathering your thoughts from the cloud</p>
   </div>
 
-  <!-- App Watermark -->
   <div id="tapestry-watermark">Tapestry & Tale</div>
 
   <div id="pdf-print-preview">
@@ -223,7 +164,6 @@
   </div>
 
   <div id="dashboard-art" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; pointer-events: none; z-index: 0; background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
-  <div id="journal-art" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.08; pointer-events: none; z-index: 0; background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
 
   <!-- MODALS -->
   <div id="time-capsule-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; padding: 1.5rem; backdrop-filter: blur(5px);">
@@ -249,19 +189,16 @@
     <div class="lock-screen-container">
         <h1 style="margin-bottom: 0.2rem;">Moments Journal</h1>
         <p class="subtitle" style="margin-bottom: 2.5rem;">Let's set up your private vault.</p>
-        
         <div id="master-error-msg" class="error-msg"></div>
-
         <div style="width: 100%; max-width: 300px; text-align: left; margin-bottom: 1.5rem;">
           <div style="font-size: 0.75rem; font-weight: bold; color: var(--ink-color); text-transform: uppercase; margin-bottom: 8px;">Step 1: Invite Code</div>
           <input type="text" id="master-code-input" class="passcode-input" placeholder="Enter Code" style="margin-bottom: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
         </div>
-
         <button class="btn" type="button" onclick="triggerHaptic(); proceedToApiSetup()" style="max-width: 300px; margin-bottom: 2rem; box-shadow: 0 4px 10px rgba(45, 55, 72, 0.2);">Verify Code</button>
-
         <div style="width: 100%; max-width: 300px; text-align: center; border-top: 1px solid var(--border-light); padding-top: 1.5rem;">
           <input type="file" id="master-import-file" style="display: none;" accept=".json" onchange="importVault(event)">
           <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Returning user? <a href="#" onclick="event.preventDefault(); document.getElementById('master-import-file').click();" style="color: var(--ink-color); font-weight: 700; text-decoration: none;">Restore Backup</a></p>
+          <p style="font-size: 0.85rem; margin: 0; margin-top: 12px;">App locked? <a href="#" onclick="event.preventDefault(); resetApp();" style="color: #e53e3e; font-weight: 700; text-decoration: underline;">Hard Reset Data</a></p>
         </div>
     </div>
   </div>
@@ -270,9 +207,7 @@
     <div class="lock-screen-container">
         <h1 style="margin-bottom: 0.2rem;">AI Connection</h1>
         <p class="subtitle" style="margin-bottom: 2.5rem;">The journal runs on your free personal AI.</p>
-        
         <div id="api-error-msg" class="error-msg"></div>
-
         <div style="width: 100%; max-width: 300px; text-align: left; margin-bottom: 2rem; padding: 15px; background: rgba(255,255,255,0.6); border-radius: 12px; border: 1px solid var(--border-light); box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
               <div style="font-size: 0.75rem; font-weight: bold; color: var(--ink-color); text-transform: uppercase;">Step 2: API Key</div>
@@ -284,9 +219,7 @@
             <button type="button" id="toggle-api-visibility" onclick="toggleApiKeyVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--text-muted);" title="Show/Hide API Key">👁️</button>
           </div>
         </div>
-
         <button class="btn" type="button" id="master-unlock-btn" onclick="triggerHaptic(); verifyMasterCode()" style="max-width: 300px; box-shadow: 0 4px 10px rgba(45, 55, 72, 0.2);">Authorize Vault</button>
-        
         <a href="#" onclick="event.preventDefault(); showScreen('screen-master-lock')" style="display: block; text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 1.5rem; text-decoration: none;">← Edit Invite Code</a>
     </div>
   </div>
@@ -313,7 +246,7 @@
           <input type="file" id="local-import-file" style="display: none;" accept=".json" onchange="importVault(event)">
           <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; padding-bottom: 8px;">Forgot PIN? <a href="#" onclick="event.preventDefault(); forgotPinPrompt();" style="color: var(--ink-color); font-weight: 700; text-decoration: none;">Reset via Invite Code</a></p>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; padding-bottom: 8px;">Device wiped? <a href="#" onclick="event.preventDefault(); document.getElementById('local-import-file').click();" style="color: var(--ink-color); font-weight: 700; text-decoration: none;">Restore Backup</a></p>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">App locked? <a href="#" onclick="event.preventDefault(); resetApp();" style="color: #e53e3e; font-weight: 700; text-decoration: none;">Hard Reset</a></p>
+          <p style="font-size: 0.85rem; margin: 0; margin-top: 12px;">App locked? <a href="#" onclick="event.preventDefault(); resetApp();" style="color: #e53e3e; font-weight: 700; text-decoration: underline;">Hard Reset Data</a></p>
         </div>
     </div>
   </div>
@@ -322,7 +255,7 @@
   <div id="screen-onboarding" class="screen">
     <div style="position: relative; z-index: 1; margin: 0 auto; max-width: 450px; text-align: center; padding: 1.5rem; padding-bottom: 4rem;">
       <h1>Design Your Vault</h1>
-      <p class="subtitle" style="margin-bottom: 2rem;">Choose your aesthetic to complete setup.</p>
+      <p class="subtitle" style="margin-bottom: 2.5rem;">Choose your aesthetic to complete setup.</p>
       <div class="section-title">1. Gender Alignment</div>
       <div class="toggle-group" id="genderPicker" style="margin-bottom: 1.5rem;">
         <button class="toggle-btn selected" onclick="triggerHaptic(); selectSetupOption('genderPicker', this, 'Female')">Female</button>
@@ -333,10 +266,10 @@
       <div class="toggle-group" id="themePicker" style="margin-bottom: 2rem;">
         <button class="toggle-btn selected" onclick="triggerHaptic(); selectThemeOption(this, '#d97757', '#fcf4f1')">Terracotta</button>
         <button class="toggle-btn" onclick="triggerHaptic(); selectThemeOption(this, '#4a7c59', '#f1f8f4')">Sage</button>
-        <button class="toggle-btn" onclick="triggerHaptic(); selectThemeOption(this, '#5b7c99', '#f2f6f9')">Ocean</button>
-        <button class="toggle-btn" onclick="triggerHaptic(); selectThemeOption(this, '#9b7e9a', '#f9f2f8')">Lavender</button>
+        <button class="toggle-btn" onclick="selectThemeOption(this, '#5b7c99', '#f2f6f9')">Ocean</button>
+        <button class="toggle-btn" onclick="selectThemeOption(this, '#9b7e9a', '#f9f2f8')">Lavender</button>
       </div>
-      <button class="btn" type="button" style="margin-top: 1rem;" onclick="triggerHaptic(); completeOnboarding()">Begin Your Journey</button>
+      <button class="btn" type="button" style="margin-top: 1rem;" onclick="triggerHaptic(); completeOnboarding()">Save & Continue</button>
     </div>
   </div>
 
@@ -345,10 +278,8 @@
     <div style="position: relative; z-index: 1; margin: 0 auto; max-width: 450px; text-align: center; padding: 2rem 1.5rem;">
       <h1 style="color: var(--ink-color);">Monthly Intentions</h1>
       <p class="subtitle" style="margin-bottom: 1.5rem;">Select up to 5 gentle focuses for this month.</p>
-      
       <div id="goal-counter">0 / 5 Selected</div>
       <div id="accordion-container" style="margin-bottom: 2.5rem;"></div>
-
       <button class="btn" type="button" onclick="triggerHaptic(); saveMonthlyGoals()">Set Intentions</button>
     </div>
   </div>
@@ -362,10 +293,17 @@
           <div class="theme-dot" style="background: #5b7c99;" onclick="triggerHaptic(); setAppTheme(this, '#5b7c99', '#f2f6f9')"></div>
           <div class="theme-dot" style="background: #9b7e9a;" onclick="triggerHaptic(); setAppTheme(this, '#9b7e9a', '#f9f2f8')"></div>
       </div>
+      
+      <!-- PWA Install Banner -->
+      <div id="pwa-install-banner" style="display: none; background: rgba(255,255,255,0.85); border: 1px solid var(--ink-color); padding: 12px; border-radius: 12px; margin: 0 auto 1.5rem auto; max-width: 350px; font-size: 0.85rem; text-align: left; color: var(--text-main); position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+          <button onclick="document.getElementById('pwa-install-banner').style.display='none'; safeStore.set('hide_pwa', 'true');" style="position: absolute; top: 8px; right: 8px; background: none; border: none; font-size: 1rem; color: var(--text-muted); cursor: pointer;">✕</button>
+          <div style="font-weight: bold; color: var(--ink-color); margin-bottom: 4px;">📲 Keep Your Vault</div>
+          Tap <b style="font-size:1.1rem;">⍗</b> (iOS) or <b style="font-size:1.1rem;">⋮</b> (Android) then <b>"Add to Home Screen"</b> to use this as a full-screen app.
+      </div>
+
       <h1>Moments Journal</h1>
       <p class="subtitle" style="margin-bottom: 1.5rem;" id="date-display">A quiet archive of your passing days.</p>
       
-      <!-- Scratch to Reveal Affirmation -->
       <div class="affirmation-wrapper" onclick="triggerHaptic()">
          <div class="affirmation-text" id="daily-affirmation-text">"Loading today's truth..."</div>
          <canvas id="scratch-canvas"></canvas>
@@ -374,34 +312,34 @@
       <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
         <button type="button" onclick="triggerHaptic(); exportVault()" style="background: transparent; color: var(--ink-color); border: 1px solid var(--ink-color); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">⬇ Backup</button>
         <button type="button" onclick="triggerHaptic(); openArchiveModal()" style="background: transparent; color: var(--ink-color); border: 1px solid var(--ink-color); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">📚 Archives</button>
+        <button type="button" onclick="triggerHaptic(); downloadCalendarReminder()" style="background: transparent; color: var(--ink-color); border: 1px solid var(--ink-color); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">🔔 Reminder</button>
+        <button type="button" onclick="triggerHaptic(); showScreen('screen-onboarding')" style="background: var(--ink-color); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">⚙️ Profile</button>
+        <button type="button" onclick="triggerHaptic(); resetApp()" style="background: #e53e3e; color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">⚠️ Reset</button>
       </div>
+      
+      <div id="monthly-progress-tracker" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;"></div>
+
       <div id="journey-map-container" style="text-align: left; max-width: 600px; margin: 0 auto;"></div>
     </div>
   </div>
 
-  <!-- DYNAMIC VIBE SLIDER (4 LEVELS) -->
+  <!-- DYNAMIC VIBE SLIDER -->
   <div id="screen-energy" class="screen">
     <div style="position: relative; z-index: 1; width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; padding: 2rem;">
       <h1 style="margin-bottom: 0.5rem; text-align: center;">How did today feel?</h1>
       <p class="subtitle" style="margin-bottom: 3rem;">Slide to match your energy.</p>
-      
       <div class="sun-icon" id="vibe-sun" style="filter: grayscale(0%) opacity(0.9); transform: scale(1.1);">☀️</div>
-      
       <div class="slider-container">
-        <!-- 4 Step Slider -->
         <input type="range" id="vibe-slider" min="1" max="4" value="3" oninput="updateSunVibe(this.value)">
         <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; font-weight: bold; text-transform: uppercase;">
-          <span>Heavy</span>
-          <span>Low-Key</span>
-          <span>Balanced</span>
-          <span>Radiant</span>
+          <span>Heavy</span><span>Low-Key</span><span>Balanced</span><span>Radiant</span>
         </div>
       </div>
-
       <button class="btn" type="button" style="margin-top: 4rem;" onclick="triggerHaptic(); confirmVibe()">Continue</button>
     </div>
   </div>
 
+  <!-- DYNAMIC JOURNAL -->
   <div id="screen-journal" class="screen">
     <div style="position: relative; z-index: 1;">
       <div style="padding-top: 1.5rem;">
@@ -411,30 +349,33 @@
     </div>
   </div>
 
+  <!-- CLIMAX SCREEN (MEMORY CARD) -->
   <div id="screen-climax" class="screen">
     <div id="climax-bg"></div>
     <div id="climax-capture-area">
-      <div class="climax-echo" id="climax-echo-text">Analyzing your emotional data...</div>
-      <div class="climax-review" id="climax-review-text"></div>
-      <div class="climax-quote" id="climax-quote-text"></div>
-      <div class="climax-author" id="climax-quote-author"></div>
+      <div class="climax-date" id="climax-date-text"></div>
+      <div class="climax-vibe" id="climax-vibe-text"></div>
+      <div class="climax-ticks" id="climax-ticks-text"></div>
+      <div class="climax-text" id="climax-anchor-text"></div>
+      <img id="climax-photo-preview" src="" style="width: 100%; border-radius: 8px; margin-top: 10px; display: none; object-fit: cover;">
+      
+      <div class="climax-echo-container">
+        <div class="climax-echo" id="climax-echo-text">Analyzing your emotional data...</div>
+        <button class="translate-btn" type="button" id="translate-echo-btn" onclick="triggerHaptic(); translateEcho()">Translate to my language</button>
+      </div>
     </div>
     <div style="position: relative; z-index: 2; margin-top: 1.5rem; width: 100%; max-width: 500px; display: flex; gap: 1rem;">
-      <!-- FIXED BUTTON: Fully opaque frosted background and dark text -->
       <button class="btn" type="button" id="climax-download-btn" onclick="triggerHaptic(); downloadClimax()" style="background: rgba(255,255,255,0.85); color: var(--text-main); font-weight: 700; backdrop-filter: blur(5px); font-size: 0.9rem;">Save to Camera Roll</button>
       <button class="btn" type="button" onclick="triggerHaptic(); advanceFromClimax()" style="background: var(--ink-color); font-size: 0.9rem;">Close Journal</button>
     </div>
   </div>
 
-  <!-- MINDFUL CARD STACK REVIEW -->
+  <!-- MONTHLY GOAL REVIEW (CARD STACK) -->
   <div id="screen-goal-review" class="screen">
     <div style="position: relative; z-index: 1; margin: 0 auto; max-width: 450px; text-align: center; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: center; min-height: 85vh;">
       <h1 style="color: var(--ink-color);">Monthly Intentions</h1>
       <p class="subtitle" style="margin-bottom: 2rem;">A quiet moment to review your goals.</p>
-      
-      <div class="card-stack" id="goal-card-stack">
-          <!-- Dynamically injected cards -->
-      </div>
+      <div class="card-stack" id="goal-card-stack"></div>
     </div>
   </div>
 
@@ -443,33 +384,26 @@
     <div style="position: relative; z-index: 1; margin: 0 auto; max-width: 500px; text-align: center; padding: 2rem 1.5rem;">
       <h1 style="color: var(--ink-color);">Curate Your Month</h1>
       <p class="subtitle" style="margin-bottom: 2rem;">Tap to uncheck any daily photos you want to exclude from your final collage.</p>
-      
-      <div class="curation-grid" id="curation-grid-container">
-          <!-- Dynamically injected photos -->
-      </div>
-
+      <div class="curation-grid" id="curation-grid-container"></div>
       <button class="btn" type="button" onclick="triggerHaptic(); finalizeCurationAndGenerate()">Stitch Collage</button>
     </div>
   </div>
 
-  <!-- SUNDAY BINGO -->
-  <div id="screen-sunday-bingo" class="screen">
+  <!-- SUNDAY SNAPSHOT VISUALIZER -->
+  <div id="screen-weekly-snapshot" class="screen">
     <div style="position: relative; z-index: 1; width: 100%; max-width: 450px; margin: 0 auto; padding: 2rem 1.5rem; text-align: center;">
-      <h1 style="color: var(--ink-color);">Sunday Bingo</h1>
-      <p class="subtitle">Tap the moments that shaped your week to complete your board.</p>
-      <div id="bingo-board-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 2rem;"></div>
-      <button class="btn" type="button" id="bingo-continue-btn" onclick="triggerHaptic(); completeSundayBingo()" style="max-width: 100%;">Continue to Check-in</button>
-    </div>
-  </div>
-
-  <div id="screen-bingo-reveal" class="screen">
-    <div style="position: relative; z-index: 1; width: 100%; max-width: 450px; margin: 0 auto; padding: 3rem 1.5rem; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 85vh;">
-      <div style="font-size: 3rem; margin-bottom: 0.5rem;">🌟</div>
-      <h1 style="color: var(--ink-color);">Your Weekly Bingo Score</h1>
-      <p class="subtitle" id="bingo-score-display" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem;"></p>
-      <div style="background: white; padding: 2rem; border-radius: 16px; border: 2px dashed var(--ink-color); margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
-        <p id="bingo-verdict-text" style="font-size: 1.15rem; font-style: italic; line-height: 1.6; color: var(--text-main); margin: 0;"></p>
+      <h1 style="color: var(--ink-color);">Sunday Snapshot</h1>
+      <p class="subtitle">A visual look back at your week.</p>
+      
+      <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border-light); margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left;">
+          <h3 style="margin-top: 0; color: var(--text-main); font-size: 1.1rem; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">The Highlights</h3>
+          <div id="snapshot-stats-container"></div>
       </div>
+      
+      <div style="background: rgba(255,255,255,0.7); padding: 1.5rem; border-radius: 16px; border: 1px dashed var(--ink-color); margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+          <div id="snapshot-thread-text" style="font-size: 1.1rem; font-style: italic; line-height: 1.6; color: var(--ink-color); font-weight: 500;">Observing your thread...</div>
+      </div>
+
       <button class="btn" type="button" onclick="triggerHaptic(); proceedToWeeklyCheckin()" style="max-width: 100%;">Continue to Check-in</button>
     </div>
   </div>
@@ -478,7 +412,7 @@
     <div style="position: relative; z-index: 1; width: 100%; padding-top: 2rem;">
       <h1 style="color: var(--ink-color);">Sunday Check-in</h1>
       <p class="subtitle">A moment to reflect on your week.</p>
-      <div class="review-container">
+      <div class="review-container" style="padding: 1.5rem;">
         <div class="section-title">How was your week overall?</div>
         <div class="toggle-group" id="week-rating-score" style="margin-bottom: 1.5rem;">
           <button class="toggle-btn" onclick="triggerHaptic(); selectReviewScore('week-rating-score', '1')">1</button>
@@ -512,10 +446,10 @@
       <div class="toggle-group" id="stylePicker" style="margin-bottom: 1.5rem; justify-content: center;">
         <button class="toggle-btn selected" onclick="triggerHaptic(); selectStyleOption(this, 'Studio Ghibli Watercolor')">Ghibli</button>
         <button class="toggle-btn" onclick="triggerHaptic(); selectStyleOption(this, 'Pixar 3D Animation')">Pixar</button>
-        <button class="toggle-btn" onclick="selectStyleOption(this, 'Cinematic Cyberpunk')">Cyberpunk</button>
-        <button class="toggle-btn" onclick="selectStyleOption(this, 'Minimalist Line Art')">Line Art</button>
-        <button class="toggle-btn" onclick="selectStyleOption(this, 'Impressionist Oil Painting')">Impressionist</button>
-        <button class="toggle-btn" onclick="selectStyleOption(this, 'Retro 80s Anime')">80s Anime</button>
+        <button class="toggle-btn" onclick="triggerHaptic(); selectStyleOption(this, 'Cinematic Cyberpunk')">Cyberpunk</button>
+        <button class="toggle-btn" onclick="triggerHaptic(); selectStyleOption(this, 'Minimalist Line Art')">Line Art</button>
+        <button class="toggle-btn" onclick="triggerHaptic(); selectStyleOption(this, 'Impressionist Oil Painting')">Impressionist</button>
+        <button class="toggle-btn" onclick="triggerHaptic(); selectStyleOption(this, 'Retro 80s Anime')">80s Anime</button>
       </div>
 
       <button class="btn" type="button" style="margin-top: 2rem;" onclick="triggerHaptic(); generateMilestone()">Decode & Prep Prompt</button>
@@ -537,7 +471,11 @@
       <div id="weekly-upload-container" style="display:none; width: 100%; margin-bottom: 1.5rem; text-align: left;">
           <div class="section-title" style="text-align: left;">2. Upload Result</div>
           <p style="font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted);">Save the resulting image from Gemini and upload it here to bind it to your journal.</p>
-          <input type="file" id="gemini-image-upload" accept="image/*" class="journal-input" onchange="handleGeminiUpload(event)">
+          
+          <div class="file-upload-wrapper" style="max-width: 100%;">
+            <label for="gemini-image-upload" class="file-upload-label" id="gemini-upload-label" style="padding: 0.8rem; font-size: 0.9rem;">📷 Select Image</label>
+            <input type="file" id="gemini-image-upload" class="file-upload-input" accept="image/*" onchange="handleGeminiUpload(event)">
+          </div>
       </div>
       
       <div id="image-display-container" style="display:none; background: rgba(255,255,255,0.9); padding: 15px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem; width: 100%; justify-content: center; align-items: center;">
@@ -556,7 +494,6 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxHuEnhc7DuHY7pmsjyvBga1SF2_SxpBT88MwwL_gN8qSHSOzOT7tv3THWUmBJ-Wnu0Wg/exec";
 
-    // Reverted to Vanilla SafeStore to completely prevent Browser Security Crashes
     const safeStore = {
       get: function(k) { try { return localStorage.getItem(k); } catch(e) { return null; } },
       set: function(k, v) { try { localStorage.setItem(k, v); } catch(e) {} },
@@ -564,7 +501,8 @@
     };
 
     let startDate = new Date();
-    let userSetup = { color: '#d97757', bgColor: '#fcf4f1', gender: 'Female', apiKey: '' };
+    // Default gender set to empty to force legacy users into onboarding
+    let userSetup = { color: '#d97757', bgColor: '#fcf4f1', gender: '', apiKey: '' };
     let milestoneSetup = { artStyle: 'Studio Ghibli Watercolor', baseImageBase64: '' };
     let tempDailyPhotoBase64 = ''; 
     let allEntries = [];
@@ -572,11 +510,11 @@
     let localQuestionBank = [];
     let tempWeekRating = '3';
     let tempAppRating = '3';
-    let currentSundayBingoSelections = [];
     let isAdvancing = false; 
     window.pendingFillDay = 1;
+    window.selectedTicks = new Set();
+    window.currentEchoText = "";
     
-    // UI State Vars
     let activeVibeScore = 3;
     let activeEnergyMode = 'Balanced';
     let activeFriction = '3';
@@ -584,7 +522,6 @@
     let currentReviewGoalIdx = 0;
     let curatedPhotosForMonth = [];
 
-    // HARDCODED MONTHLY GOALS TO PREVENT WIPE/FALLBACK
     const masterGoalCategories = {
       "Mind & Wellbeing": ["Overthink less", "Stress less", "Be kinder", "Complain less", "Say no more", "Worry less", "Rest guilt-free", "Be present", "Let things go", "Start earlier", "Trust myself", "Less screen time", "Sleep earlier", "Snooze less", "Take breaks", "Take time off", "Embrace lazy days", "Stop doomscrolling", "Unplug from work"],
       "Social & Life": ["Go out more", "Call family", "See friends", "Make plans", "Say yes", "Connect more", "Reach out", "Try new things", "Make memories", "Go outside", "Take photos", "Celebrate small wins", "Text friends", "Host casually", "Cancel if tired", "Give compliments", "Change routines", "Sit outside"],
@@ -592,6 +529,12 @@
       "Money & Habits": ["Save more", "Spend mindfully", "Track budget", "Buy less", "Use what’s here", "Finish things", "Read more", "Learn something", "Tidy up", "Declutter", "Stay organized", "Scroll less", "Cancel subscriptions", "Hang up clothes", "Unsubscribe", "Make lists", "Do quick tasks"],
       "Joy & Personal Life": ["Laugh more", "Dance more", "Listen to music", "Binge less", "Make time", "Have fun", "Enjoy today", "Treat myself", "Enjoy alone time", "Create something", "Be spontaneous", "Notice good things", "Lighten up", "Read for fun", "Watch comfort movies", "Light the candle", "Dress up", "Buy a treat", "Make playlists"]
     };
+
+    const fallbackQuickTicks = [
+      "I rested.", "I took a proper break.", "I went outside.", "I noticed something beautiful.",
+      "I made myself laugh.", "I enjoyed something delicious.", "I protected my peace.",
+      "I did something I'm proud of.", "I noticed the sky.", "I let something go."
+    ];
 
     async function fetchWithTimeout(url, options = {}, timeout = 6000) {
         const controller = new AbortController();
@@ -610,31 +553,6 @@
     }
 
     function generateSimpleHash(str) { return btoa(str).replace(/=/g, ''); }
-
-    // CORRECTED FAILSAFE QUESTIONS (Strictly "Did you..." format based on the database)
-    const happyFailsafe = [
-      { category: "Joy", text: "Did you experience a moment of genuine joy today?" },
-      { category: "Gratitude", text: "Did you feel grateful for something small today?" },
-      { category: "Connection", text: "Did you share a kind word with someone today?" },
-      { category: "Peace", text: "Did you feel a sense of peace with where you are right now?" },
-      { category: "Spark", text: "Did you make time for something you genuinely love today?" }
-    ];
-    
-    const lowKeyFailsafe = [
-      { category: "Avoidance", text: "Did you put off a tiny, 2-minute task that is now going to bother you tomorrow?" },
-      { category: "Avoidance", text: "Did you dodge someone just so you wouldn't have to talk to them?" },
-      { category: "Sensory", text: "Did you take a moment to tune into your physical body today?" },
-      { category: "Reflection", text: "Did you enjoy a quiet moment of stillness today?" },
-      { category: "Mindfulness", text: "Did you let your thoughts drift without judging them today?" }
-    ];
-    
-    const heavyFailsafe = [
-      { category: "Avoidance", text: "Did you avoid opening a message or notification because it made you anxious?" },
-      { category: "Escapism", text: "Did you doom-scroll or distract yourself to avoid dealing with a tough emotion?" },
-      { category: "Reactivity", text: "Did you get defensive when given feedback or a minor correction?" },
-      { category: "Accountability", text: "Did you lose your patience over something small?" },
-      { category: "Communication", text: "Did you give someone the silent treatment instead of telling them why you were upset?" }
-    ];
 
     const artworkBank = [
       "https://img.magnific.com/free-vector/simple-sketch-happy-office-worker_1308-86391.jpg?semt=ais_hybrid&w=740&q=80",
@@ -708,10 +626,17 @@
         const setupStr = safeStore.get('journalSetup');
         if (setupStr) {
             try {
-                let savedSetup = JSON.parse(setupStr); savedSetup.apiKey = userSetup.apiKey || savedSetup.apiKey; userSetup = savedSetup; applyUserTheme();
+                let parsed = JSON.parse(setupStr); 
+                userSetup.color = parsed.color || '#d97757'; 
+                userSetup.bgColor = parsed.bgColor || '#fcf4f1';
+                userSetup.apiKey = parsed.apiKey || userSetup.apiKey;
+                userSetup.gender = parsed.gender || ''; // Catch old users missing this field
+                
+                applyUserTheme();
                 const savedStart = safeStore.get('startDate'); if (savedStart) startDate = new Date(savedStart);
                 document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork();
-                checkStartOfMonthFlow();
+                
+                if (!userSetup.gender) { showScreen('screen-onboarding'); } else { checkStartOfMonthFlow(); }
             } catch(e) { showScreen('screen-onboarding'); }
         } else { showScreen('screen-onboarding'); }
     }
@@ -720,15 +645,24 @@
         const pinInput = document.getElementById('local-pin-input').value.trim();
         const errorMsg = document.getElementById('local-error-msg'); const storedPin = safeStore.get('local_pin');
         errorMsg.style.display = 'none';
+        
         if (pinInput === storedPin || (pinInput === "0000" && safeStore.get('dev_mode') === 'true')) {
             document.getElementById('local-pin-input').value = '';
             const setupStr = safeStore.get('journalSetup');
             if (setupStr) {
                 try {
-                    userSetup = JSON.parse(setupStr); applyUserTheme();
+                    let parsed = JSON.parse(setupStr); 
+                    userSetup.color = parsed.color || '#d97757'; 
+                    userSetup.bgColor = parsed.bgColor || '#fcf4f1';
+                    userSetup.apiKey = parsed.apiKey || userSetup.apiKey;
+                    userSetup.gender = parsed.gender || ''; 
+                    
+                    applyUserTheme();
                     const savedStart = safeStore.get('startDate'); if (savedStart) startDate = new Date(savedStart);
                     document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork();
-                    checkStartOfMonthFlow();
+                    
+                    // Route to onboarding if they never picked a gender
+                    if (!userSetup.gender) { showScreen('screen-onboarding'); } else { checkStartOfMonthFlow(); }
                 } catch(e) { showScreen('screen-onboarding'); }
             } else { showScreen('screen-onboarding'); }
         } else { errorMsg.innerText = "Incorrect PIN."; errorMsg.style.display = 'block'; document.getElementById('local-pin-input').value = ''; }
@@ -738,10 +672,7 @@
       triggerHaptic();
       const code = prompt("Enter your original Invite Code to reset your PIN:");
       if (!code) return;
-      
       const cleanCode = code.trim().toUpperCase();
-      
-      // 1. Check Dev Codes First
       if (cleanCode === "FG-VIP-TEST" || cleanCode === "DEV-77" || cleanCode === "TEST-MODE") {
           safeStore.set('local_pin', '');
           document.getElementById('pin-setup-input').value = '';
@@ -751,27 +682,19 @@
           return;
       }
 
-      // 2. Check Live Database for Real Codes
       try {
-          // Provide loading feedback to the user
           const resetLink = document.querySelector('a[onclick*="forgotPinPrompt"]');
           const originalText = resetLink ? resetLink.innerText : "Reset via Invite Code";
           if (resetLink) resetLink.innerText = "Verifying Code...";
-
-          // Fetch the stored API Hash for the backend verification
           let apiHash = "unknown";
           const setupStr = safeStore.get('journalSetup');
           if (setupStr) {
               const parsed = JSON.parse(setupStr);
               if (parsed.apiKey) apiHash = generateSimpleHash(parsed.apiKey);
           }
-
-          // Ping the database
           const response = await fetchWithTimeout(`${API_URL}?action=verifyCode&code=${cleanCode}&apiHash=${apiHash}`, {}, 8000);
           const data = await response.json();
-          
           if (resetLink) resetLink.innerText = originalText;
-
           if (data && data.valid) {
               safeStore.set('local_pin', '');
               document.getElementById('pin-setup-input').value = '';
@@ -784,7 +707,7 @@
       } catch (err) {
           const resetLink = document.querySelector('a[onclick*="forgotPinPrompt"]');
           if (resetLink) resetLink.innerText = "Reset via Invite Code";
-          alert("Network error. Please make sure you are connected to the internet to verify your code.");
+          alert("Network error. Please check connection.");
       }
     }
 
@@ -809,7 +732,7 @@
                 if (data.startDate) safeStore.set('startDate', data.startDate);
                 if (data.entries) safeStore.set('allEntries', data.entries);
                 safeStore.set('master_access', 'true'); safeStore.set('dev_mode', 'true');
-                alert('Backup restored successfully! The app will now reload into your vault.'); window.location.reload();
+                alert('Backup restored successfully! Reloading vault.'); window.location.reload();
             } catch (err) { alert('Invalid backup file.'); }
         }; reader.readAsText(file);
     }
@@ -844,15 +767,6 @@
 
       if (monthEntries.length === 0) { alert("No entries found for this volume."); return; }
 
-      const quotes = monthEntries.filter(e => e.quote).map(e => `"${e.quote}" - ${e.author}`);
-      let quoteIdx = 0; const quoteEl = document.getElementById('dynamic-loading-quote');
-      if (quotes.length > 0) {
-          quoteEl.innerText = quotes[0];
-          window.loadingQuoteInterval = setInterval(() => { quoteIdx = (quoteIdx + 1) % quotes.length; quoteEl.innerText = quotes[quoteIdx]; }, 3000);
-      } else {
-          quoteEl.innerText = "Compiling your moments...";
-      }
-
       const previewOverlay = document.getElementById('pdf-print-preview');
       const wrapper = document.getElementById('pdf-pages-wrapper');
       wrapper.innerHTML = ''; wrapper.style.display = 'block'; previewOverlay.style.display = 'block';
@@ -866,37 +780,32 @@
              let contextCaption = entry.photoContext ? `<div style="font-size:16px; font-style:italic; color:#718096; margin-top:-20px; margin-bottom: 30px;">${entry.photoContext}</div>` : '';
              photoHtml = `<img src="data:image/jpeg;base64,${entry.dailyPhoto}" crossorigin="anonymous" style="max-width:100%; max-height:400px; border-radius:12px; border: 8px solid white; box-shadow: 0 6px 16px rgba(0,0,0,0.1); margin-bottom: 30px;">${contextCaption}`; 
          }
-         let qaHtml = entry.qaResponses.map(qa => `<div style="margin-bottom:20px;"><strong style="color:#d97757; font-size:18px;">${qa.question}</strong><br/><span style="font-size:18px;">${qa.answer} ${qa.note ? `<i style="color:#718096;">(${qa.note})</i>` : ''}</span></div>`).join('');
+         let tickHtml = entry.quickTicks && entry.quickTicks.length > 0 ? `<div style="margin-bottom:20px; font-style:italic; font-size:18px;">${entry.quickTicks.join(' • ')}</div>` : '';
          let echoHtml = entry.echo ? `<div style="margin-bottom: 30px; font-size: 24px; font-style: italic; color: #d97757; font-weight: bold;">"${entry.echo}"</div>` : '';
 
          page.innerHTML = `
             <h1 style="color:#d97757; font-size:54px; margin-bottom:10px; font-weight:bold;">Day ${entry.day}</h1>
-            <h3 style="color:#718096; font-style:italic; font-size:24px; margin-top:0; margin-bottom:40px; font-weight:normal;">Energy: ${entry.energy} &nbsp;|&nbsp; Friction: ${entry.friction}/5</h3>
+            <h3 style="color:#718096; font-style:italic; font-size:24px; margin-top:0; margin-bottom:40px; font-weight:normal;">Energy: ${entry.energy}</h3>
             ${echoHtml}
             ${photoHtml}
             <div style="font-size:22px; line-height:1.8; text-align:left; max-width:650px; margin: 0 auto;">
-                ${entry.anchor ? `<p><strong>The Standout Thing:</strong> ${entry.anchor}</p>` : ''}
-                ${entry.rant ? `<p><strong>Offload:</strong> ${entry.rant}</p>` : ''}
-                ${entry.bingoSummary ? `<p><strong>Sunday Bingo Highlights:</strong> ${entry.bingoSummary}</p>` : ''}
+                ${entry.anchor ? `<p><strong>Note:</strong> ${entry.anchor}</p>` : ''}
                 <hr style="border:0; border-top:1px solid #e2e8f0; margin: 30px 0;">
-                ${qaHtml}
+                ${tickHtml}
             </div>
-            ${entry.quote ? `<div style="margin-top: 40px; padding: 30px; background: rgba(255,255,255,0.5); border-radius: 12px;"><p style="font-style: italic; color: #4a5568; font-size: 20px; line-height: 1.6; margin:0;">"${entry.quote}"<br><span style="font-size: 16px; font-weight:bold; margin-top:10px; display:block;">— ${entry.author}</span></p></div>` : ''}
          `;
          wrapper.appendChild(page);
 
-         if (entry.bingoSummary) {
-             const bingoPage = document.createElement('div');
-             bingoPage.style.cssText = "width:800px; min-height:1120px; background-color:#fcf4f1; padding:80px; box-sizing:border-box; margin:0 auto; page-break-after:always; text-align:center; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#2d3748; font-family:sans-serif;";
-             let calculatedScore = entry.bingoScore !== undefined ? entry.bingoScore : entry.bingoSummary.split(',').length;
-             bingoPage.innerHTML = `
-                <h1 style="color:#d97757; font-size:42px; margin-bottom: 10px;">Sunday Bingo Board</h1>
-                <p style="color:#718096; font-style:italic; font-size:20px; margin-bottom: 30px;">Score: ${calculatedScore} / 9 Achieved</p>
+         if (entry.weeklyThread) {
+             const threadPage = document.createElement('div');
+             threadPage.style.cssText = "width:800px; min-height:1120px; background-color:#fcf4f1; padding:80px; box-sizing:border-box; margin:0 auto; page-break-after:always; text-align:center; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#2d3748; font-family:sans-serif;";
+             threadPage.innerHTML = `
+                <h1 style="color:#d97757; font-size:42px; margin-bottom: 10px;">Sunday Snapshot</h1>
                 <div style="background: white; padding: 40px; border-radius: 16px; border: 2px dashed #d97757; width: 100%; max-width: 600px; text-align: left;">
-                    <p style="font-size: 20px; line-height: 2.2; color: #2d3748; margin: 0;"><strong>Checked Intentions:</strong><br>${entry.bingoSummary.split(', ').map(item => `✓ ${item}`).join('<br>')}</p>
+                    <p style="font-size: 20px; line-height: 2.2; color: #2d3748; margin: 0;">${entry.weeklyStats || ''}</p>
                 </div>
-                ${entry.bingoVerdict ? `<p style="font-size: 22px; font-style: italic; color: #4a5568; max-width: 600px; margin-top: 40px; line-height: 1.5;">"${entry.bingoVerdict}"</p>` : ''}
-             `; wrapper.appendChild(bingoPage);
+                <p style="font-size: 22px; font-style: italic; color: #4a5568; max-width: 600px; margin-top: 40px; line-height: 1.5;">"${entry.weeklyThread}"</p>
+             `; wrapper.appendChild(threadPage);
          }
 
          if (entry.artifactUrl) {
@@ -913,85 +822,52 @@
 
       window.scrollTo(0, 0);
       const images = wrapper.getElementsByTagName('img');
-      const imagePromises = Array.from(images).map(img => {
-          return new Promise((resolve) => {
-              if (img.complete) return resolve();
-              img.onload = resolve; img.onerror = resolve; 
-          });
-      });
+      const imagePromises = Array.from(images).map(img => new Promise((resolve) => { if (img.complete) return resolve(); img.onload = resolve; img.onerror = resolve; }));
       await Promise.all(imagePromises);
       await new Promise(r => setTimeout(r, 1000)); 
 
       const opt = { margin: 0, filename: `Moments_${monthName.replace(/\s+/g, '_')}_Archive.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false }, jsPDF: { unit: 'px', format: [800, 1120], orientation: 'portrait' } };
-      try { await html2pdf().set(opt).from(wrapper).save(); } catch(e) { alert("There was an issue rendering the PDF Keepsake."); }
-      if (window.loadingQuoteInterval) clearInterval(window.loadingQuoteInterval); previewOverlay.style.display = 'none';
+      try { await html2pdf().set(opt).from(wrapper).save(); } catch(e) { alert("PDF rendering error."); }
+      previewOverlay.style.display = 'none';
     }
 
     async function downloadArchiveMonth(monthKey, monthName) {
-      const btn = document.getElementById('btn-download-month-' + monthKey); const originalText = btn ? btn.innerText : "Download";
       closeArchiveModal(); await buildAndDownloadPDF(monthKey, monthName);
-      if (btn) { btn.innerText = "Downloaded!"; setTimeout(() => { btn.innerText = originalText; }, 3000); }
     }
 
     async function weaveCurrentMonthPDF() {
       const btn = document.getElementById('milestone-advance-btn');
       btn.innerText = "Weaving Keepsake..."; btn.disabled = true;
-
       let todayDate = new Date();
       let monthKey = `${todayDate.getFullYear()}-${todayDate.getMonth()}`;
       let monthName = `${monthNames[todayDate.getMonth()]} ${todayDate.getFullYear()}`;
-
       await buildAndDownloadPDF(monthKey, monthName);
       btn.innerText = "Keepsake Saved!"; setTimeout(() => finishMilestone(), 2000);
     }
 
-    // MONTHLY GOALS: HARDCODED TO PREVENT WIPE
     function buildRandomizedGoals() {
       const accordionContainer = document.getElementById('accordion-container');
       accordionContainer.innerHTML = ''; 
-
       Object.keys(masterGoalCategories).forEach(header => {
           let categoryGoals = masterGoalCategories[header];
           let shuffled = categoryGoals.sort(() => 0.5 - Math.random());
           let selected5 = shuffled.slice(0, 5);
-
-          let checkboxesHtml = selected5.map(goal => `
-              <label class="goal-check-label"><input type="checkbox" value="${goal}" onchange="handleGoalCheck(this)"> ${goal}</label>
-          `).join('');
-
-          accordionContainer.innerHTML += `
-              <div class="accordion-item">
-                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">${header} <span style="font-size: 1.2rem; color: var(--ink-color);">+</span></div>
-                <div class="accordion-body">
-                   ${checkboxesHtml}
-                </div>
-              </div>
-          `;
+          let checkboxesHtml = selected5.map(goal => `<label class="goal-check-label"><input type="checkbox" value="${goal}" onchange="handleGoalCheck(this)"> ${goal}</label>`).join('');
+          accordionContainer.innerHTML += `<div class="accordion-item"><div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">${header} <span style="font-size: 1.2rem; color: var(--ink-color);">+</span></div><div class="accordion-body">${checkboxesHtml}</div></div>`;
       });
     }
 
     function checkStartOfMonthFlow() {
         let realToday = new Date();
         let goalsSet = safeStore.get(`goalsSetFor_${realToday.getFullYear()}_${realToday.getMonth()}`);
-
-        if (!goalsSet) {
-            buildRandomizedGoals();
-            showScreen('screen-monthly-goals');
-        } else {
-            buildDashboard();
-            showScreen('screen-dashboard');
-            initScratchCard();
-        }
+        if (!goalsSet) { buildRandomizedGoals(); showScreen('screen-monthly-goals'); } 
+        else { buildDashboard(); showScreen('screen-dashboard'); initScratchCard(); }
     }
 
     function handleGoalCheck(cb) {
         triggerHaptic();
         let checks = document.querySelectorAll('.goal-check-label input:checked');
-        if (checks.length > 5) {
-            cb.checked = false;
-            alert("Please select a maximum of 5 gentle focuses for this month.");
-            return;
-        }
+        if (checks.length > 5) { cb.checked = false; alert("Please select a maximum of 5 gentle focuses."); return; }
         document.getElementById('goal-counter').innerText = `${checks.length} / 5 Selected`;
     }
 
@@ -999,177 +875,60 @@
         let selected = [];
         document.querySelectorAll('.goal-check-label input:checked').forEach(b => selected.push(b.value));
         if(selected.length === 0) selected = ["Be present"]; 
-        
         let realToday = new Date();
         safeStore.set(`goals_${realToday.getFullYear()}_${realToday.getMonth()}`, JSON.stringify(selected));
         safeStore.set(`goalsSetFor_${realToday.getFullYear()}_${realToday.getMonth()}`, "true");
-        
-        buildDashboard();
-        showScreen('screen-dashboard');
-        initScratchCard();
+        buildDashboard(); showScreen('screen-dashboard'); initScratchCard();
     }
 
-    // YOUR COMPLETE AFFIRMATION LIST (Hardcoded to prevent Google fetch blocks)
-    const masterAffirmations = [
-      "I’m doing okay.", "I’ve got this.", "Today can still be a good day.", "I don’t need to rush.",
-      "I can figure it out.", "I’m allowed to take a break.", "Things don’t have to be perfect.",
-      "I’m doing better than I think.", "One thing at a time.", "I can start again tomorrow.",
-      "I deserve nice things.", "It’s okay to go slow.", "I’m allowed to change my mind.",
-      "Small wins count.", "I can handle today.", "I don’t need to have all the answers.",
-      "Something good might happen today.", "I’m allowed to enjoy myself.", "I can leave some things for later.",
-      "It’s not that serious.", "I’m learning as I go.", "I’ve handled worse.",
-      "I don’t need everyone to like me.", "I can make room for joy.", "Good things take time.",
-      "I’m allowed to be proud of myself.", "I can try again.", "Today, I choose easy where I can.",
-      "I don’t have to earn rest.", "I’m allowed to have a good day.", "Maybe things will work out.",
-      "I can trust myself a little more.", "There’s no prize for rushing.", "I’m not late to my own life.",
-      "A little progress is still progress.", "I can let this be enough for today.", "I’m doing my best with what I have.",
-      "Some days are just for getting through.", "I can enjoy the little things.", "It’s okay if today is ordinary.",
-      "I have time.", "I’m allowed to take up space.", "Things can get better.",
-      "I can be kind to myself today.", "Not everything needs fixing right now.", "I’m more capable than I feel.",
-      "I can make today a little nicer.", "I’m allowed to just be.", "There is no need to panic.",
-      "I’ll get there.", "I don't have to be productive all the time.", "It’s okay if my plans change.",
-      "I can just breathe for a minute.", "Not every text needs an immediate reply.", "It’s fine to leave dishes in the sink tonight.",
-      "I can say no and not feel bad about it.", "My best looks different every day.", "I am allowed to ask for help.",
-      "I can take the easy route sometimes.", "It’s okay if I’m just getting by right now.", "I don't have to have an opinion on everything.",
-      "I can just listen to a good song and exist.", "I don't have to earn my weekend.", "It’s okay to be a little messy.",
-      "I’m doing fine.", "Nobody is paying as much attention as I think they are.", "I can skip the thing I don't want to do.",
-      "It's okay to log off.", "I’ll worry about that later.", "I can just let this one go.",
-      "Tomorrow is a blank slate.", "I can take things at face value.", "I’m allowed to just sit here.",
-      "It’s okay to be tired.", "I don't owe anyone an explanation.", "I can take the pressure off myself.",
-      "I don't have to be the best at this.", "I am doing enough.", "It’s okay if I don't feel 100%.",
-      "I can be soft with myself today.", "I have survived all of my bad days so far.", "I can just do the bare minimum today.",
-      "It’s not my job to manage everyone else's feelings.", "I can take a step back.", "I don't have to rush through this phase.",
-      "It's okay to feel whatever I'm feeling.", "I don't have to be \"on\" right now.", "I can give myself a pass today.",
-      "It's okay if things are just \"fine.\"", "I don't need a perfectly aesthetic life.", "I can just show up, and that’s enough.",
-      "I’m exactly where I need to be right now.", "I can close my eyes for a minute.", "I don't have to perform for anyone.",
-      "I can let someone else take the lead.", "It’s okay to prefer quiet.", "I am allowed to rest without justifying it.",
-      "I can just be a person today."
-    ];
+    const masterAffirmations = [ "I’m doing okay.", "I’ve got this.", "Today can still be a good day.", "I don’t need to rush.", "I can figure it out.", "I’m allowed to take a break.", "Things don’t have to be perfect.", "I’m doing better than I think.", "One thing at a time.", "I can start again tomorrow.", "I deserve nice things.", "It’s okay to go slow.", "I’m allowed to change my mind." ];
 
     async function initScratchCard() {
         const textEl = document.getElementById('daily-affirmation-text');
         const canvas = document.getElementById('scratch-canvas');
-        
         let startD = new Date(startDate); startD.setHours(0,0,0,0);
         let todayD = new Date(); todayD.setHours(0,0,0,0);
         let currentDayNum = Math.floor((todayD.getTime() - startD.getTime()) / (1000 * 3600 * 24)) + 1;
-
-        let dailyAffirmation = "";
-
-        try {
-            const cb = Date.now();
-            const sheetUrl = `https://docs.google.com/spreadsheets/d/14tqh6e8-Q3EtIltNW1qep7bZQk4P8D1ELFxr9nOxNXY/export?format=csv&gid=1703831652&cb=${cb}`;
-            const response = await fetchWithTimeout(sheetUrl, {}, 5000);
-            const csvText = await response.text();
-            const rows = csvText.split('\n').map(row => row.replace(/^"|"$/g, '').trim()).filter(r => r.length > 0);
-            
-            if (rows.length > 1) {
-                const dataRows = rows.slice(1);
-                let daySeed = currentDayNum % dataRows.length;
-                dailyAffirmation = dataRows[daySeed].split(',')[0]; 
-            }
-        } catch(err) { 
-            console.log("Affirmation fetch blocked. Using master list."); 
-        }
-
-        if (!dailyAffirmation) {
-            let daySeed = currentDayNum % masterAffirmations.length;
-            dailyAffirmation = masterAffirmations[daySeed];
-        }
-        
+        let dailyAffirmation = masterAffirmations[currentDayNum % masterAffirmations.length];
         textEl.innerText = `"${dailyAffirmation}"`;
 
         const isScratched = safeStore.get('affirmation_scratched_' + currentDayNum);
-        if (isScratched === 'true') {
-            canvas.style.display = 'none';
-            return;
-        }
+        if (isScratched === 'true') { canvas.style.display = 'none'; return; }
 
-        canvas.style.display = 'block';
-        canvas.classList.remove('revealed');
+        canvas.style.display = 'block'; canvas.classList.remove('revealed');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        
         const wrapper = document.querySelector('.affirmation-wrapper');
-        canvas.width = wrapper.offsetWidth;
-        canvas.height = wrapper.offsetHeight;
+        canvas.width = wrapper.offsetWidth; canvas.height = wrapper.offsetHeight;
         
-        const grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        grd.addColorStop(0, "#d1d5db");
-        grd.addColorStop(0.3, "#f3f4f6");
-        grd.addColorStop(0.5, "#9ca3af");
-        grd.addColorStop(0.7, "#f3f4f6");
-        grd.addColorStop(1, "#d1d5db");
-        ctx.fillStyle = grd;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.fillStyle = "#4a5568";
-        ctx.font = "bold 16px sans-serif";
-        ctx.textAlign = "center";
+        ctx.fillStyle = "#9ca3af"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ffffff"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center";
         ctx.fillText("✨ Scratch to Reveal ✨", canvas.width/2, canvas.height/2 + 5);
 
         let isDrawing = false;
-
-        function getMousePos(evt) {
-            const rect = canvas.getBoundingClientRect();
-            const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
-            const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top };
-        }
-
-        function startPosition(e) { isDrawing = true; scratch(e); }
-        function endPosition() { isDrawing = false; checkClearance(); }
+        const getPos = (e) => { const r = canvas.getBoundingClientRect(); const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left; const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top; return {x, y}; };
+        const scratch = (e) => { if (!isDrawing) return; e.preventDefault(); const p = getPos(e); ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(p.x, p.y, 25, 0, Math.PI * 2); ctx.fill(); };
         
-        function scratch(e) {
-            if (!isDrawing) return;
-            e.preventDefault();
-            const pos = getMousePos(e);
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        function checkClearance() {
-            const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-            let transparentPixels = 0;
-            for (let i = 3; i < pixels.length; i += 4) { if (pixels[i] === 0) transparentPixels++; }
-            const percent = (transparentPixels / (pixels.length / 4)) * 100;
-            
-            if (percent > 40) {
-                triggerHaptic();
-                canvas.classList.add('revealed');
-                safeStore.set('affirmation_scratched_' + currentDayNum, 'true');
-            }
-        }
-
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+        canvas.addEventListener('mouseup', () => { isDrawing = false; });
         canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('touchstart', startPosition, {passive: false});
-        canvas.addEventListener('touchend', endPosition);
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); }, {passive: false});
+        canvas.addEventListener('touchend', () => { isDrawing = false; });
         canvas.addEventListener('touchmove', scratch, {passive: false});
     }
 
     function selectSetupOption(groupId, btnElement, value) {
       document.querySelectorAll(`#${groupId} .toggle-btn`).forEach(c => c.classList.remove('selected'));
-      btnElement.classList.add('selected');
-      if (groupId === 'genderPicker') userSetup.gender = value;
+      btnElement.classList.add('selected'); if (groupId === 'genderPicker') userSetup.gender = value;
     }
 
     function completeOnboarding() {
       safeStore.set('journalSetup', JSON.stringify(userSetup));
-      
-      // SHIELD: Only set a new start date if one doesn't already exist.
       if (!safeStore.get('startDate')) {
-          let initDate = new Date();
-          initDate.setDate(initDate.getDate() - 2); 
-          safeStore.set('startDate', initDate.toISOString());
-          startDate = initDate;
+          let initDate = new Date(); initDate.setDate(initDate.getDate() - 2); 
+          safeStore.set('startDate', initDate.toISOString()); startDate = initDate;
       }
-      
       document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork();
-      buildDashboard();
-      checkStartOfMonthFlow();
+      buildDashboard(); checkStartOfMonthFlow();
     }
 
     function checkTimeCapsule() {
@@ -1177,31 +936,49 @@
        if (capsuleStr) {
            document.getElementById('time-capsule-message').innerText = `"${capsuleStr}"`;
            const modal = document.getElementById('time-capsule-modal');
-           modal.style.display = 'flex'; modal.style.animation = 'fadeIn 0.4s ease';
-           safeStore.set('timeCapsule_day_' + window.pendingFillDay, ''); 
+           modal.style.display = 'flex'; safeStore.set('timeCapsule_day_' + window.pendingFillDay, ''); 
        }
     }
-
     function closeTimeCapsule() { triggerHaptic(); document.getElementById('time-capsule-modal').style.display = 'none'; }
 
+    function downloadCalendarReminder() {
+      triggerHaptic();
+      const icsData = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Moments Journal//EN\nBEGIN:VEVENT\nSUMMARY:Moments Journal Check-in\nDESCRIPTION:Take 30 seconds to capture today's moments.\nRRULE:FREQ=DAILY\nDTSTART:20240101T150000Z\nDTEND:20240101T150500Z\nBEGIN:VALARM\nACTION:DISPLAY\nDESCRIPTION:Journal Reminder\nTRIGGER:-PT0M\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR`;
+      const blob = new Blob([icsData], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'Journal_Reminder.ics'; a.click();
+    }
+
     function buildDashboard() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      if (!isStandalone && safeStore.get('hide_pwa') !== 'true') {
+          const banner = document.getElementById('pwa-install-banner');
+          if (banner) banner.style.display = 'block';
+      }
+
+      let currentEntriesCount = allEntries.length;
+      let todayD = new Date();
+      let endOfMonth = new Date(todayD.getFullYear(), todayD.getMonth() + 1, 0);
+      let daysRemaining = endOfMonth.getDate() - todayD.getDate();
+      if(daysRemaining < 0) daysRemaining = 0;
+      
+      const tracker = document.getElementById('monthly-progress-tracker');
+      if (tracker) {
+         tracker.innerText = `${currentEntriesCount} moments captured. ${daysRemaining} days remaining in ${monthNames[todayD.getMonth()]} to weave your collage.`;
+      }
+
       const container = document.getElementById('journey-map-container');
       container.innerHTML = ''; 
       let startYear = startDate.getFullYear(); let startMonth = startDate.getMonth();
-      
-      let realToday = new Date();
-      realToday.setHours(0,0,0,0);
-      let startCompare = new Date(startDate);
-      startCompare.setHours(0,0,0,0);
+      let realToday = new Date(); realToday.setHours(0,0,0,0);
+      let startCompare = new Date(startDate); startCompare.setHours(0,0,0,0);
 
       for (let mOffset = 0; mOffset < 12; mOffset++) {
           let monthDate = new Date(startYear, startMonth + mOffset, 1);
           let m = monthDate.getMonth(); let y = monthDate.getFullYear();
           let daysInMonth = new Date(y, m + 1, 0).getDate();
 
-          let monthContainer = document.createElement('div');
-          monthContainer.className = "month-container";
-          
+          let monthContainer = document.createElement('div'); monthContainer.className = "month-container";
           monthContainer.innerHTML = `
               <div class="month-header">
                 <div style="font-weight: 400; font-size: 0.9rem; font-style: italic; color: var(--text-muted); margin-bottom: 0.4rem; line-height: 1.4;">"${happyCaptions[m]}"</div>
@@ -1212,22 +989,16 @@
           
           let gridNode = document.getElementById(`grid-month-${y}-${m}`);
           const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-          weekdays.forEach(day => {
-              let headerEl = document.createElement('div'); headerEl.className = 'weekday-header'; headerEl.innerText = day; gridNode.appendChild(headerEl);
-          });
-
+          weekdays.forEach(day => { let headerEl = document.createElement('div'); headerEl.className = 'weekday-header'; headerEl.innerText = day; gridNode.appendChild(headerEl); });
           let firstDayIndex = new Date(y, m, 1).getDay();
           for (let i = 0; i < firstDayIndex; i++) { let emptyCell = document.createElement('div'); gridNode.appendChild(emptyCell); }
 
           for (let d = 1; d <= daysInMonth; d++) {
               let nodeDate = new Date(y, m, d); nodeDate.setHours(0,0,0,0);
-              
               let diffTime = nodeDate.getTime() - startCompare.getTime();
               let nodeDayNumber = Math.floor(diffTime / (1000 * 3600 * 24)) + 1;
               let isCompleted = allEntries.some(e => e.day === nodeDayNumber);
-              
               let node = document.createElement('div');
-              let isSunday = nodeDate.getDay() === 0;
 
               if (nodeDate < startCompare) {
                   node.className = 'map-node past-ignored'; node.innerHTML = d;
@@ -1236,40 +1007,23 @@
                       node.className = 'map-node completed'; node.innerHTML = '✓';
                   } else {
                       node.className = 'map-node active'; node.innerHTML = d;
-                      node.onclick = function() { 
-                        triggerHaptic(); 
-                        window.pendingFillDay = nodeDayNumber; 
-                        checkTimeCapsule(); 
-                        document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork();
-                        document.getElementById('vibe-slider').value = 3; updateSunVibe(3);
-                        showScreen('screen-energy'); 
-                      };
+                      node.onclick = function() { triggerHaptic(); window.pendingFillDay = nodeDayNumber; checkTimeCapsule(); document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); document.getElementById('vibe-slider').value = 3; updateSunVibe(3); showScreen('screen-energy'); };
                   }
               } else if (nodeDate < realToday) {
                   if (isCompleted) {
                       node.className = 'map-node completed'; node.innerHTML = '✓';
                   } else {
                       node.className = 'map-node available'; node.innerHTML = d;
-                      node.onclick = function() { 
-                        triggerHaptic(); 
-                        window.pendingFillDay = nodeDayNumber; 
-                        checkTimeCapsule(); 
-                        document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork();
-                        document.getElementById('vibe-slider').value = 3; updateSunVibe(3);
-                        showScreen('screen-energy'); 
-                      };
+                      node.onclick = function() { triggerHaptic(); window.pendingFillDay = nodeDayNumber; checkTimeCapsule(); document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); document.getElementById('vibe-slider').value = 3; updateSunVibe(3); showScreen('screen-energy'); };
                   }
               } else {
                   node.className = 'map-node locked'; node.innerHTML = d;
               }
-              
-              if (isSunday) node.classList.add('sunday-bingo');
               gridNode.appendChild(node);
           }
       }
     }
 
-    // 4-STEP VIBE SLIDER LOGIC
     function updateSunVibe(val) {
         const sun = document.getElementById('vibe-sun');
         activeVibeScore = parseInt(val);
@@ -1287,6 +1041,44 @@
         openJournalToday(activeEnergyMode);
     }
 
+    function seededRandom(str, seed) {
+        let h = 0;
+        for(let i=0; i<str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+        let x = Math.sin(h ^ seed) * 10000;
+        return x - Math.floor(x);
+    }
+
+    function getDailyQuickTicks() {
+        let allOptions = [];
+        if (localQuestionBank && localQuestionBank.length > 0) {
+            localQuestionBank.forEach(item => {
+                let text = item.text || item.question || item.Text || item.Question;
+                if (text && !allOptions.includes(text)) allOptions.push(text);
+            });
+        }
+        if (allOptions.length === 0) allOptions = fallbackQuickTicks;
+
+        let weekNum = Math.floor(window.pendingFillDay / 7);
+        let storedAnchors = safeStore.get('weekly_anchors_' + weekNum);
+        let weeklyAnchors = [];
+
+        if (storedAnchors) {
+            weeklyAnchors = JSON.parse(storedAnchors);
+        } else {
+            let shuffledPool = [...allOptions].sort(() => 0.5 - Math.random());
+            weeklyAnchors = shuffledPool.slice(0, 4);
+            safeStore.set('weekly_anchors_' + weekNum, JSON.stringify(weeklyAnchors));
+        }
+
+        let remainingPool = allOptions.filter(item => !weeklyAnchors.includes(item));
+        let daySeed = window.pendingFillDay;
+        
+        let shuffledRemaining = [...remainingPool].sort((a,b) => seededRandom(a, daySeed) - seededRandom(b, daySeed));
+        
+        let dailyRotations = shuffledRemaining.slice(0, 6);
+        return [...weeklyAnchors, ...dailyRotations];
+    }
+
     function startDictation(targetId, btnElement) {
       triggerHaptic();
       if (!('webkitSpeechRecognition' in window)) { alert("Voice dictation not supported."); return; }
@@ -1302,151 +1094,81 @@
         if (finalTranscript) targetInput.value += (targetInput.value ? ' ' : '') + finalTranscript;
       };
       btnElement.onclick = function() {
-        triggerHaptic();
-        recognition.stop(); btnElement.classList.remove('recording'); btnElement.innerText = "🎤 Tap to Speak";
+        triggerHaptic(); recognition.stop(); btnElement.classList.remove('recording'); btnElement.innerText = "🎤 Tap to Speak";
         btnElement.onclick = function() { startDictation(targetId, btnElement); };
       };
       recognition.start();
     }
 
-   function openJournalToday(mode) {
+    function openJournalToday(mode) {
       tempDailyPhotoBase64 = ""; 
+      window.selectedTicks = new Set();
       document.getElementById('journal-day-title').innerText = `Day ${window.pendingFillDay}`;
       const container = document.getElementById('journal-dynamic-content');
       
-      // 1. DYNAMIC BACKGROUND COLOR
-      if (mode === 'Radiant') {
-          document.body.style.backgroundColor = '#fff9e6'; // Soft, warm, sunny glow
-      } else {
-          document.body.style.backgroundColor = 'var(--bg-color)'; // Default theme
-      }
+      document.body.style.backgroundColor = (mode === 'Radiant') ? '#fff9e6' : 'var(--bg-color)'; 
 
-      let html = '';
+      let anchorPrompt = "What is one thing from today you wouldn't want to forget?";
+      if (mode === 'Heavy') anchorPrompt = "What weighed upon you today?";
+      else if (mode === 'Radiant') anchorPrompt = "What made you so happy today?";
 
-      // 2. EQUILIBRIUM UI LOGIC
-      if (mode === 'Low-Key') {
-        html += `<div class="section-title">Low-Key</div><div class="question-block"><div class="question-text">Say something or anything at all. Or just one word or a phrase to describe today:</div><textarea id="anchor-input" class="journal-input" rows="3" placeholder="..."></textarea></div>`;
-      } else if (mode === 'Radiant') {
-        html += `<div class="section-title">Radiant</div><div class="question-block"><div class="question-text">What made you so happy today? Capture the highlight here:</div><textarea id="anchor-input" class="journal-input" rows="3" placeholder="Today I felt amazing because..."></textarea></div>`;
-      } else {
-        html += `<div class="section-title">The Standout Thing</div><div class="question-block"><div class="question-text">What stands out most about today? Name a specific detail:</div><input type="text" id="anchor-input" class="journal-input" placeholder="Today I noticed..."></div>`;
+      let html = `
+        <div class="section-title">${anchorPrompt}</div>
+        <div class="question-block" style="margin-bottom: 2.5rem;">
+          <button type="button" class="mic-btn" onclick="startDictation('anchor-input', this)">🎤 Tap to Speak</button>
+          <textarea id="anchor-input" class="journal-input" rows="4" placeholder="Type or speak in any language..."></textarea>
+        </div>
+      `;
 
-        // HEAVY DAY GETS ONLY OFFLOAD
-        if (mode === 'Heavy') {
-          html += `<div class="section-title">Offload Area</div><div class="question-block"><button type="button" class="mic-btn" onclick="startDictation('vent-input', this)">🎤 Tap to Speak</button><textarea id="vent-input" class="journal-input rant-input" rows="4" placeholder="Type or speak to offload..."></textarea></div>`;
-        } else {
-          html += `<div class="section-title">Reflections</div><div id="dynamic-questions-container"></div>`;
-        }
+      if (mode !== 'Heavy') {
+          let quickTicksList = getDailyQuickTicks();
+          let ticksHtml = quickTicksList.map((tick, index) => {
+              let extraClass = index < 4 ? 'anchor-tick' : '';
+              let escapedTick = tick.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+              return `<button type="button" class="tick-chip ${extraClass}" onclick="triggerHaptic(); this.classList.toggle('selected'); toggleTickSelection('${escapedTick}')">${tick}</button>`;
+          }).join('');
+
+          html += `
+            <div class="section-title">Quick Ticks</div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: -10px; margin-bottom: 1rem; font-style: italic;">Tap what fits today.</p>
+            <div class="quick-ticks-grid">${ticksHtml}</div>
+          `;
       }
 
       html += `
-        <div class="section-title" style="margin-top: 2rem;">Photo of the Day</div>
+        <div class="section-title">Photo of the Day</div>
         <div class="file-upload-wrapper" style="margin-bottom:1.5rem; max-width: 100%;">
           <label for="daily-image-upload" class="file-upload-label" style="padding: 0.8rem; font-size: 0.9rem;">📷 Attach a Memory</label>
           <input type="file" id="daily-image-upload" class="file-upload-input" accept="image/*" onchange="handleDailyImageUpload(event)">
           <img id="daily-preview-image" src="" style="width: 100%; border-radius: 12px; margin-top: 10px; display: none; object-fit: cover;">
           <input type="text" id="photo-context-input" class="journal-input" placeholder="Describe this photo in a short sentence..." style="margin-top:10px; display:none;">
         </div>
+
+        <button type="button" class="btn" id="seal-btn" onclick="triggerHaptic(); sealEntry()" style="margin-top: 1.5rem;">Seal Today's Entry</button>
       `;
 
-      html += `<button type="button" class="btn" id="seal-btn" onclick="triggerHaptic(); sealEntry()" style="margin-top: 1.5rem;">Seal Today's Entry</button>`;
       container.innerHTML = html;
-
-      // ONLY SHOW REFLECTIONS ON 'BALANCED' DAYS
-      if (mode === 'Balanced') {
-        setTimeout(() => {
-          let questionsToAsk = extractQuestions(mode);
-          const dynamicDiv = document.getElementById('dynamic-questions-container');
-          questionsToAsk.forEach((q, index) => {
-            const uniqueId = `elab-${index}`;
-            dynamicDiv.innerHTML += `<div class="question-block dynamic-toggle" data-question="${q.text}"><div class="question-text">${q.text}</div><div class="toggle-group"><button type="button" class="toggle-btn" onclick="triggerHaptic(); handleToggle(this, '${uniqueId}')">Yes</button><button type="button" class="toggle-btn" onclick="triggerHaptic(); handleToggle(this, '${uniqueId}')">No</button><button type="button" class="toggle-btn" onclick="triggerHaptic(); handleToggle(this, '${uniqueId}')">Skip</button></div><textarea id="${uniqueId}" class="elaboration-field journal-input" rows="2" placeholder="Optional note..."></textarea></div>`;
-          });
-        }, 50);
-      }
       showScreen('screen-journal');
     }
 
-    function handleToggle(btn, elaborationId) {
-      const group = btn.parentElement;
-      group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      if (document.getElementById(elaborationId)) {
-        document.getElementById(elaborationId).style.display = 'block';
-      }
-    }
-
-    function extractQuestions(mode) {
-      let pool = localQuestionBank.length > 0 ? [...localQuestionBank] : [];
-      let askedQuestions = [];
-      try { askedQuestions = JSON.parse(safeStore.get('askedQuestions')) || []; } catch(e) {}
-      let selected = [];
-
-      function pullFromPool(filterFn, fallbackArr, count) {
-          let filtered = pool.filter(filterFn);
-          if (filtered.length < count) filtered = [...filtered, ...fallbackArr];
-          let unasked = filtered.filter(q => !askedQuestions.includes(q.text));
-          if (unasked.length < count) {
-              askedQuestions = askedQuestions.slice(Math.floor(askedQuestions.length / 2));
-              unasked = filtered.filter(q => !askedQuestions.includes(q.text));
-              if (unasked.length === 0) unasked = filtered;
-          }
-          let pulled = [];
-          for (let i = 0; i < count; i++) {
-              if (unasked.length === 0) break;
-              let randIdx = Math.floor(Math.random() * unasked.length);
-              let pickedQ = unasked.splice(randIdx, 1)[0];
-              pulled.push(pickedQ);
-              if (!askedQuestions.includes(pickedQ.text)) askedQuestions.push(pickedQ.text);
-          }
-          return pulled;
-      }
-
-      const isHappyQ = (q) => q.vibes && q.vibes.some(v => ['joy', 'happy', 'pos', 'all'].includes(v.toLowerCase()));
-      const isNeutralQ = (q) => q.vibes && q.vibes.some(v => ['reg', 'low', 'base', 'neu', 'all'].includes(v.toLowerCase()));
-      const isHeavyQ = (q) => q.vibes && q.vibes.some(v => ['heav', 'vent', 'rant', 'over', 'all'].includes(v.toLowerCase()));
-
-      if (mode === 'Radiant') { 
-          selected = pullFromPool(q => isHappyQ(q) || isNeutralQ(q), happyFailsafe, 4); 
-      } else if (mode === 'Low-Key') { 
-          selected = pullFromPool(q => isNeutralQ(q), lowKeyFailsafe, 4); 
-      } else if (mode === 'Balanced') { 
-          let p1 = pullFromPool(isHappyQ, happyFailsafe, 2);
-          let p2 = pullFromPool(isNeutralQ, lowKeyFailsafe, 2);
-          let p3 = pullFromPool(isHeavyQ, heavyFailsafe, 1);
-          selected = [...p1, ...p2, ...p3];
-      }
-
-      safeStore.set('askedQuestions', JSON.stringify(askedQuestions)); return selected;
+    function toggleTickSelection(tick) {
+        if (window.selectedTicks.has(tick)) window.selectedTicks.delete(tick);
+        else window.selectedTicks.add(tick);
     }
 
     async function asyncGetQuestionBank() {
-        // V2 forces the app to ignore the old cached memory
         let cached = safeStore.get('questionBank_v2');
         if (cached) { try { localQuestionBank = JSON.parse(cached); } catch(e) {} }
-        
         try {
             const cb = Date.now();
             const res = await fetchWithTimeout(`${API_URL}?action=getQuestions&cb=${cb}`, {}, 8000);
             const data = await res.json();
             if (data && data.length > 0 && !data.error) {
-                localQuestionBank = data;
-                safeStore.set('questionBank_v2', JSON.stringify(localQuestionBank));
+                localQuestionBank = data; safeStore.set('questionBank_v2', JSON.stringify(localQuestionBank));
             }
-        } catch(e) {
-            console.log("Question fetch failed, relying on cache or failsafes.");
-        }
-        
-        // Hide the distraction loader once the fetch attempt is complete
+        } catch(e) {}
         const loader = document.getElementById('boot-loader');
-        if (loader) {
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.display = 'none'; }, 600);
-        }
-    }
-
-    function recordEntryTime() {
-      let recentEntries = []; try { recentEntries = JSON.parse(safeStore.get('recentEntriesTimes')) || []; } catch(e) {}
-      recentEntries.push(Date.now()); safeStore.set('recentEntriesTimes', JSON.stringify(recentEntries));
+        if (loader) { loader.style.opacity = '0'; setTimeout(() => { loader.style.display = 'none'; }, 600); }
     }
 
     function handleDailyImageUpload(event) {
@@ -1462,55 +1184,37 @@
           else if (height > MAX_WIDTH) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
           canvas.width = width; canvas.height = height;
           const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
-          
           const dataUrl = canvas.toDataURL('image/jpeg', 0.6); tempDailyPhotoBase64 = dataUrl.split(',')[1];
-          document.getElementById('daily-preview-image').src = dataUrl;
-          document.getElementById('daily-preview-image').style.display = 'block';
-          document.getElementById('photo-context-input').style.display = 'block';
+          document.getElementById('daily-preview-image').src = dataUrl; document.getElementById('daily-preview-image').style.display = 'block'; document.getElementById('photo-context-input').style.display = 'block';
         }; img.src = e.target.result;
       }; reader.readAsDataURL(file);
     }
 
     async function sealEntry() {
       const btn = document.getElementById('seal-btn'); btn.innerText = "Encrypting & Analyzing..."; btn.disabled = true;
-      // Reset background back to normal theme
       document.body.style.backgroundColor = 'var(--bg-color)';
 
       let entryData = {
         day: window.pendingFillDay, energy: activeEnergyMode, friction: activeFriction,
+        quickTicks: Array.from(window.selectedTicks),
         anchor: document.getElementById('anchor-input') ? document.getElementById('anchor-input').value.trim() : "",
-        rant: document.getElementById('vent-input') ? document.getElementById('vent-input').value.trim() : "",
         dailyPhoto: tempDailyPhotoBase64, 
         photoContext: document.getElementById('photo-context-input') && tempDailyPhotoBase64 ? document.getElementById('photo-context-input').value.trim() : "",
-        quote: "", author: "", echo: "",
-        bingoSummary: (currentSundayBingoSelections.length > 0 ? currentSundayBingoSelections : (window.savedBingoSelections || [])).join(", "),
-        bingoScore: window.tempBingoScore !== undefined ? window.tempBingoScore : (currentSundayBingoSelections.length > 0 ? currentSundayBingoSelections : (window.savedBingoSelections || [])).length,
-        bingoVerdict: window.tempSundayBingoVerdict || "",
-        qaResponses: []
+        echo: ""
       };
-
-      let qaText = ""; let skippedAll = true;
-      document.querySelectorAll('.dynamic-toggle').forEach(block => {
-        let q = block.getAttribute('data-question');
-        let a = block.querySelector('.toggle-btn.selected') ? block.querySelector('.toggle-btn.selected').innerText : "Skipped";
-        if (a !== "Skipped") skippedAll = false;
-        let elab = block.querySelector('.elaboration-field').value.trim();
-        qaText += `Q: ${q} | A: ${a} ${elab ? '('+elab+')' : ''}\n`;
-        entryData.qaResponses.push({ question: q, answer: a, note: elab });
-      });
-
-      if (entryData.bingoSummary) {
-          qaText += `Sunday Bingo Moments Achieved: ${entryData.bingoSummary}\n`;
-      }
 
       const apiKey = userSetup.apiKey;
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
       
-      let promptText = `You are an empathetic journaling AI. The user's text entries are the absolute core of this analysis. Vibe: ${entryData.energy}. Standout thing: "${entryData.anchor}". Offload: "${entryData.rant}". User's answers: ${qaText}.`;
-      if (entryData.photoContext) promptText += ` The user attached a photo described as: "${entryData.photoContext}".`;
-      if (entryData.energy === 'Low-Key' && skippedAll && !entryData.anchor && !entryData.rant) promptText += ` NOTE: The user chose silence today. Keep your echo very brief and gentle.`;
+      let promptText = `You are a sharp, witty, and observant journaling AI. The user wrote this specific note about their day: "${entryData.anchor}". THIS NOTE IS THE MOST IMPORTANT CONTEXT. They also ticked these mood boxes: "${entryData.quickTicks.join(', ')}".`;
+      if (entryData.photoContext) promptText += ` Attached photo context: "${entryData.photoContext}".`;
       
-      promptText += ` Output ONLY a valid JSON object containing exactly 4 string properties: "echo" (1 warm, grounded sentence reflecting on their answers. Talk like a supportive friend. Do not use therapy-speak or pretentious wording), "quote" (A perfectly matched historical quote based on their mood today), "author" (Author name), and "review" (A casual, direct 2-sentence summary of the poetic essence of their day. DO NOT literally recap their actions. Focus on the underlying feeling).`;
+      promptText += ` Output ONLY a valid JSON object containing 1 string property: "echo". 
+      INSTRUCTIONS FOR ECHO:
+      - Write exactly 2 sharp, highly personalized sentences in English.
+      - React DIRECTLY to the specific situation in their note.
+      - DO NOT sound like a clinical therapist.
+      - Be witty, slightly poetic, or playfully observant like a best friend.`;
       
       let promptParts = [{ text: promptText }];
       
@@ -1519,413 +1223,332 @@
         const resData = await response.json(); let aiText = resData.candidates[0].content.parts[0].text;
         aiText = aiText.replace(/```json/gi, '').replace(/```/gi, '').trim();
         const parsed = JSON.parse(aiText.substring(aiText.indexOf('{'), aiText.lastIndexOf('}') + 1));
-        
-        entryData.quote = parsed.quote || "Every moment is a fresh beginning."; entryData.author = parsed.author || "T.S. Eliot"; entryData.echo = parsed.echo || "Your day has been safely recorded.";
-        document.getElementById('climax-echo-text').innerText = entryData.echo; document.getElementById('climax-review-text').innerText = parsed.review || "A meaningful entry archived into your passing days."; document.getElementById('climax-quote-text').innerText = `"${entryData.quote}"`; document.getElementById('climax-quote-author').innerText = `- ${entryData.author}`;
+        entryData.echo = parsed.echo || "Your day has been safely recorded.";
       } catch (err) {
-        entryData.quote = "Adopt the pace of nature: her secret is patience."; entryData.author = "Ralph Emerson"; entryData.echo = "The day is sealed securely in your vault.";
-        document.getElementById('climax-echo-text').innerText = entryData.echo; document.getElementById('climax-review-text').innerText = "You showed up for yourself today, recording a quiet piece of your journey."; document.getElementById('climax-quote-text').innerText = `"${entryData.quote}"`; document.getElementById('climax-quote-author').innerText = `- ${entryData.author}`;
+        entryData.echo = "The day is sealed securely in your vault.";
       }
 
-      // Add or update the entry for this specific day
+      window.currentEchoText = entryData.echo;
+
+      let filledDate = new Date(startDate); filledDate.setDate(startDate.getDate() + (window.pendingFillDay - 1));
+      const formattedDate = filledDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+      document.getElementById('climax-date-text').innerText = formattedDate;
+      
+      const vibeMap = { 'Heavy': '☁️ Heavy', 'Low-Key': '🌥️ Low-Key', 'Balanced': '🌤️ Balanced', 'Radiant': '☀️ Radiant' };
+      document.getElementById('climax-vibe-text').innerText = vibeMap[entryData.energy] || entryData.energy;
+      
+      document.getElementById('climax-ticks-text').innerText = entryData.quickTicks.length > 0 ? entryData.quickTicks.join(' • ') : '';
+      document.getElementById('climax-anchor-text').innerText = entryData.anchor ? `"${entryData.anchor}"` : '';
+      document.getElementById('climax-anchor-text').style.display = entryData.anchor ? 'block' : 'none';
+      
+      const imgPrev = document.getElementById('climax-photo-preview');
+      if (entryData.dailyPhoto) { imgPrev.src = "data:image/jpeg;base64," + entryData.dailyPhoto; imgPrev.style.display = 'block'; } else { imgPrev.style.display = 'none'; }
+      
+      document.getElementById('climax-echo-text').innerText = entryData.echo;
+      document.getElementById('translate-echo-btn').style.display = entryData.anchor ? 'inline-block' : 'none';
+
       let entryIndex = allEntries.findIndex(e => e.day === entryData.day);
-      if (entryIndex !== -1) {
-          allEntries[entryIndex] = entryData;
-      } else {
-          allEntries.push(entryData);
-      }
+      if (entryIndex !== -1) { allEntries[entryIndex] = entryData; } else { allEntries.push(entryData); }
       safeStore.set('allEntries', JSON.stringify(allEntries));
-      recordEntryTime(); showScreen('screen-climax');
+      
+      showScreen('screen-climax');
+    }
+
+    async function translateEcho() {
+        const btn = document.getElementById('translate-echo-btn');
+        const echoEl = document.getElementById('climax-echo-text');
+        const userText = document.getElementById('anchor-input').value.trim();
+        if (!userText || !window.currentEchoText) return;
+
+        btn.innerText = "Translating..."; btn.disabled = true;
+        const apiKey = userSetup.apiKey;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
+        const prompt = `The user wrote their journal entry in this language/script: "${userText}". Translate this exact English sentence into that same natural language and script: "${window.currentEchoText}". Output ONLY the translated sentence, nothing else.`;
+        
+        try {
+            const response = await fetchWithTimeout(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{text: prompt}] }] }) }, 10000);
+            const data = await response.json();
+            echoEl.innerText = data.candidates[0].content.parts[0].text.trim();
+            btn.style.display = 'none';
+        } catch (e) {
+            btn.innerText = "Translate"; btn.disabled = false; alert("Translation failed.");
+        }
     }
 
     function downloadClimax() {
       const btn = document.getElementById('climax-download-btn'); const originalText = btn.innerText; btn.innerText = "Loading..."; btn.disabled = true;
+      document.getElementById('translate-echo-btn').style.display = 'none';
       html2canvas(document.getElementById('climax-capture-area'), { useCORS: true, backgroundColor: null }).then(canvas => {
-        let link = document.createElement('a'); link.download = `Day_${window.pendingFillDay}_Climax.png`; link.href = canvas.toDataURL("image/png"); link.click(); btn.innerText = originalText; btn.disabled = false;
+        let link = document.createElement('a'); link.download = `Day_${window.pendingFillDay}_Memory.png`; link.href = canvas.toDataURL("image/png"); link.click(); btn.innerText = originalText; btn.disabled = false;
+        if(document.getElementById('anchor-input').value.trim()) document.getElementById('translate-echo-btn').style.display = 'inline-block';
       }).catch(err => { btn.innerText = originalText; btn.disabled = false; });
     }
 
     function advanceFromClimax() {
-      if (isAdvancing) return;
-      isAdvancing = true;
-
-      let filledDate = new Date(startDate); 
-      filledDate.setDate(startDate.getDate() + (window.pendingFillDay - 1));
-      let tomorrow = new Date(filledDate); 
-      tomorrow.setDate(tomorrow.getDate() + 1);
+      if (isAdvancing) return; isAdvancing = true;
+      let filledDate = new Date(startDate); filledDate.setDate(startDate.getDate() + (window.pendingFillDay - 1));
+      let tomorrow = new Date(filledDate); tomorrow.setDate(tomorrow.getDate() + 1);
       
       let isEndOfMonth = tomorrow.getDate() === 1;
       let isSunday = filledDate.getDay() === 0;
 
-      if (isEndOfMonth) {
-        buildGoalReviewScreen(filledDate);
-        isAdvancing = false;
-      } else if (isSunday) {
-        openSundayBingo();
-        isAdvancing = false;
-      } else {
-        buildDashboard(); 
-        showScreen('screen-dashboard');
-        setTimeout(() => { isAdvancing = false; }, 1000);
-      }
+      if (isEndOfMonth) { buildGoalReviewScreen(filledDate); isAdvancing = false; } 
+      else if (isSunday) { openWeeklySnapshot(); isAdvancing = false; } 
+      else { buildDashboard(); showScreen('screen-dashboard'); setTimeout(() => { isAdvancing = false; }, 1000); }
     }
 
-    // MONTHLY GOAL REVIEW (CARD STACK)
-    function buildGoalReviewScreen(filledDate) {
-        let savedGoalsStr = safeStore.get(`goals_${filledDate.getFullYear()}_${filledDate.getMonth()}`);
-        reviewGoalsStack = savedGoalsStr ? JSON.parse(savedGoalsStr) : ["Be present"];
-        currentReviewGoalIdx = 0;
+    async function openWeeklySnapshot() {
+        showScreen('screen-weekly-snapshot');
+        const statsContainer = document.getElementById('snapshot-stats-container');
+        const threadEl = document.getElementById('snapshot-thread-text');
         
-        const stackContainer = document.getElementById('goal-card-stack');
-        stackContainer.innerHTML = '';
-        
-        reviewGoalsStack.forEach((goal, idx) => {
-            let z = reviewGoalsStack.length - idx;
-            let card = document.createElement('div');
-            card.className = `review-card ${idx === 0 ? 'active' : ''}`;
-            card.style.zIndex = z;
-            if (idx > 0) { card.style.transform = `translateX(${10 * idx}px) translateY(${10 * idx}px) scale(${1 - (0.05 * idx)})`; }
-            
-            card.innerHTML = `
-              <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: bold; margin-bottom: 10px;">Goal ${idx + 1} of ${reviewGoalsStack.length}</p>
-              <h2 style="color: var(--ink-color); margin: 0 0 1.5rem 0; font-size: 1.4rem;">${goal}</h2>
-              <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;">How did this feel over the month?</p>
-              <div class="rating-chip-group">
-                 <button type="button" class="rating-chip" onclick="rateGoalCard(this)">🌱 Struggled, but tried</button>
-                 <button type="button" class="rating-chip" onclick="rateGoalCard(this)">🌿 Found my rhythm</button>
-                 <button type="button" class="rating-chip" onclick="rateGoalCard(this)">🌳 Really succeeded</button>
-              </div>
-            `;
-            stackContainer.appendChild(card);
+        statsContainer.innerHTML = '<div style="color:var(--text-muted); font-style:italic;">Gathering this week\'s data...</div>';
+        threadEl.innerText = "Observing your thread...";
+
+        const recentEntries = allEntries.filter(e => e.day <= window.pendingFillDay && e.day > window.pendingFillDay - 7);
+        let tickCounts = {};
+        recentEntries.forEach(e => {
+            if (e.quickTicks) {
+                e.quickTicks.forEach(tick => { tickCounts[tick] = (tickCounts[tick] || 0) + 1; });
+            }
         });
-        showScreen('screen-goal-review');
-    }
 
-    function rateGoalCard(btnElement) {
-        triggerHaptic();
-        const cards = document.querySelectorAll('.review-card');
-        const currentCard = cards[currentReviewGoalIdx];
-        
-        currentCard.classList.remove('active');
-        currentCard.classList.add('done');
-        
-        currentReviewGoalIdx++;
-        
-        if (currentReviewGoalIdx < reviewGoalsStack.length) {
-            const nextCard = cards[currentReviewGoalIdx];
-            nextCard.style.transform = 'translateX(0) scale(1)';
-            nextCard.classList.add('active');
+        const sortedTicks = Object.keys(tickCounts).sort((a,b) => tickCounts[b] - tickCounts[a]).slice(0, 5);
+        let statsHtml = '';
+        if (sortedTicks.length === 0) {
+            statsHtml = '<div style="color:var(--text-muted); font-style:italic;">A quiet week with no specific tags.</div>';
         } else {
-            setTimeout(() => { proceedToCollageCuration(); }, 400);
+            let maxCount = tickCounts[sortedTicks[0]];
+            sortedTicks.forEach(tick => {
+                let width = (tickCounts[tick] / maxCount) * 100;
+                let daysText = tickCounts[tick] === 1 ? 'day' : 'days';
+                statsHtml += `
+                    <div class="stat-row">
+                        <div class="stat-header"><span>✓ ${tick}</span> <span class="stat-count">${tickCounts[tick]} ${daysText}</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 0%;"></div></div>
+                    </div>
+                `;
+            });
         }
-    }
-
-    // COLLAGE CURATION
-    function proceedToCollageCuration() {
-        curatedPhotosForMonth = [];
-        let filledDate = new Date(startDate); 
-        filledDate.setDate(startDate.getDate() + (window.pendingFillDay - 1));
-        const currentMonthIndex = filledDate.getMonth(); 
-        const currentYear = filledDate.getFullYear();
+        statsContainer.innerHTML = statsHtml;
         
-        const monthEntries = allEntries.filter(e => {
-            let d = new Date(startDate.getTime() + (e.day - 1) * 86400000);
-            return d.getMonth() === currentMonthIndex && d.getFullYear() === currentYear && e.dailyPhoto;
-        });
+        setTimeout(() => {
+            let bars = statsContainer.querySelectorAll('.stat-bar-fill');
+            sortedTicks.forEach((tick, idx) => {
+                if(bars[idx]) bars[idx].style.width = `${(tickCounts[tick] / tickCounts[sortedTicks[0]]) * 100}%`;
+            });
+        }, 100);
 
-        const grid = document.getElementById('curation-grid-container');
-        grid.innerHTML = '';
+        let statsSummaryStr = sortedTicks.map(t => `${tickCounts[t]} days: ${t}`).join(', ');
 
-        if (monthEntries.length === 0) { finalizeCurationAndGenerate(); return; }
-
-        monthEntries.forEach(entry => {
-            curatedPhotosForMonth.push({ id: entry.day, base64: entry.dailyPhoto, included: true });
+        try {
+            const apiKey = userSetup.apiKey;
+            const textSummaries = recentEntries.map(e => `Day ${e.day} Mood: ${e.energy}. Note: "${e.anchor}". Ticks: ${e.quickTicks ? e.quickTicks.join(',') : ''}`).join(" | ");
+            const prompt = `You are an observant AI reviewing a user's journal entries for the past week. Data: ${textSummaries}. Write exactly 1 warm, empathetic sentence starting with "A little thread I noticed..." that observes a gentle pattern, recurring feeling, or insight from this data. Output ONLY a JSON object: {"thread": "..."}`;
             
-            let item = document.createElement('div');
-            item.className = 'curation-item';
-            item.innerHTML = `
-                <img src="data:image/jpeg;base64,${entry.dailyPhoto}" class="curation-img">
-                <div class="curation-check">✓</div>
-            `;
-            item.onclick = function() {
-                triggerHaptic();
-                this.classList.toggle('unchecked');
-                let target = curatedPhotosForMonth.find(p => p.id === entry.day);
-                target.included = !this.classList.contains('unchecked');
-                this.querySelector('.curation-check').innerText = target.included ? '✓' : '';
-            };
-            grid.appendChild(item);
-        });
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
+            const response = await fetchWithTimeout(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{text: prompt}] }], generationConfig: { responseMimeType: "application/json" } }) }, 10000);
+            const data = await response.json();
+            let aiText = data.candidates[0].content.parts[0].text.replace(/```json/gi, '').replace(/```/gi, '').trim();
+            const parsed = JSON.parse(aiText);
+            threadEl.innerText = parsed.thread;
 
-        showScreen('screen-curate-collage');
-    }
-
-    function finalizeCurationAndGenerate() {
-        const finalPhotos = curatedPhotosForMonth.filter(p => p.included).map(p => p.base64);
-        window.tempCuratedMonthPhotos = finalPhotos; 
-        generateMonthlyCollage();
-    }
-
-    async function openSundayBingo() {
-      const grid = document.getElementById('bingo-board-grid');
-      grid.innerHTML = '<div style="grid-column: span 3; color: var(--text-muted); padding: 2rem;">Loading Sunday Bingo...</div>';
-      currentSundayBingoSelections = []; let prompts = [];
-
-      try {
-        const response = await fetchWithTimeout(`${API_URL}?action=getBingoQuestions`, {}, 8000);
-        const data = await response.json();
-        if (data && data.length > 0 && !data.error) {
-            prompts = data.map(item => item.text);
-            safeStore.set('cachedBingo', JSON.stringify(prompts));
+            if (allEntries.length > 0) {
+                allEntries[allEntries.length - 1].weeklyThread = parsed.thread;
+                allEntries[allEntries.length - 1].weeklyStats = statsSummaryStr;
+                safeStore.set('allEntries', JSON.stringify(allEntries));
+            }
+        } catch (e) {
+            threadEl.innerText = "A quiet week where simply showing up was enough.";
         }
-      } catch (err) {
-        let cached = safeStore.get('cachedBingo'); if (cached) { try { let parsed = JSON.parse(cached); if(parsed.length > 0) prompts = parsed; } catch(e){} }
-      }
-
-      if (prompts.length === 0) prompts = ["Minor inconvenience for someone", "Slept without screens", "Noticed sunlight", "Cooked something comforting", "Forgave yourself", "Listened to understand", "Prioritized your energy", "Doodled aimlessly", "Counted blessings"];
-      grid.innerHTML = ''; const shuffledPrompts = prompts.sort(() => 0.5 - Math.random());
-      
-      shuffledPrompts.slice(0, 9).forEach((text, idx) => {
-        let tile = document.createElement('div'); tile.className = 'bingo-tile'; tile.dataset.index = idx;
-        tile.style.cssText = "background: white; border: 2px solid var(--border-light); border-radius: 12px; padding: 15px 10px; font-size: 0.85rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 90px; transition: all 0.2s ease;";
-        tile.innerText = text;
-        tile.onclick = function() {
-          triggerHaptic(); this.classList.toggle('selected-bingo');
-          if (this.classList.contains('selected-bingo')) { this.style.background = 'var(--ink-color)'; this.style.color = 'white'; this.style.borderColor = 'var(--ink-color)'; } 
-          else { this.style.background = 'white'; this.style.color = 'var(--text-main)'; this.style.borderColor = 'var(--border-light)'; }
-          checkBingoWinCondition();
-        };
-        grid.appendChild(tile);
-      });
-      showScreen('screen-sunday-bingo');
-    }
-
-    function checkBingoWinCondition() {
-      const tiles = document.querySelectorAll('.bingo-tile');
-      tiles.forEach(t => { if (!t.classList.contains('selected-bingo')) t.classList.remove('bingo-winning-line'); });
-      let gridState = Array.from(tiles).map(t => t.classList.contains('selected-bingo'));
-      const winningLines = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
-      winningLines.forEach(line => {
-        if (line.every(idx => gridState[idx])) { line.forEach(idx => { tiles[idx].classList.add('bingo-winning-line'); }); }
-      });
-    }
-
-    async function completeSundayBingo() {
-      const selectedTiles = document.querySelectorAll('.bingo-tile.selected-bingo');
-      currentSundayBingoSelections = Array.from(selectedTiles).map(t => t.innerText);
-      window.savedBingoSelections = [...currentSundayBingoSelections];
-      window.tempBingoScore = currentSundayBingoSelections.length;
-
-      let bingoVerdict = "";
-      try {
-        const apiKey = userSetup.apiKey;
-        const prompt = `The user completed their Sunday Bingo board with a score of ${window.tempBingoScore} out of 9 items. Their checked highlights were: "${currentSundayBingoSelections.join(', ')}". Write a single, highly personalized, empathetic one-line verdict. If the score is less than 5, write a gentle, grounding sentence. If the score is 5 or more, write a warm, congratulatory sentence. Do not be pretentious. Output ONLY the raw text line.`;
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
-        const response = await fetchWithTimeout(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) }, 12000);
-        const data = await response.json(); bingoVerdict = data.candidates[0].content.parts[0].text.trim();
-      } catch (e) { bingoVerdict = window.tempBingoScore < 5 ? "A quieter week where holding space was enough." : "A beautifully full week of intentional presence."; }
-
-      window.tempSundayBingoVerdict = bingoVerdict;
-      document.getElementById('bingo-score-display').innerText = `You achieved ${window.tempBingoScore} out of 9 moments`; document.getElementById('bingo-verdict-text').innerText = `"${bingoVerdict}"`; showScreen('screen-bingo-reveal');
     }
 
     function proceedToWeeklyCheckin() { showScreen('screen-weekly-review'); }
-
-    function selectReviewScore(groupId, score) {
-      document.querySelectorAll(`#${groupId} .toggle-btn`).forEach(b => b.classList.remove('selected'));
-      event.target.classList.add('selected');
-      if (groupId === 'week-rating-score') tempWeekRating = score;
-      if (groupId === 'app-rating-score') tempAppRating = score;
-    }
-
+    function selectReviewScore(groupId, score) { document.querySelectorAll(`#${groupId} .toggle-btn`).forEach(b => b.classList.remove('selected')); event.target.classList.add('selected'); if (groupId === 'week-rating-score') tempWeekRating = score; if (groupId === 'app-rating-score') tempAppRating = score; }
+    
     async function submitWeeklyReview() {
-      const btn = document.getElementById('submit-review-btn');
-      btn.innerText = "Sealing Vault..."; btn.disabled = true;
-
+      const btn = document.getElementById('submit-review-btn'); btn.innerText = "Sealing Vault..."; btn.disabled = true;
       const weekNum = Math.ceil(window.pendingFillDay / 7);
       const capsuleNote = document.getElementById('time-capsule-input').value.trim();
       if (capsuleNote) safeStore.set('timeCapsule_day_' + (window.pendingFillDay + 1), capsuleNote);
 
-      if (allEntries.length > 0) {
-          allEntries[allEntries.length - 1].bingoSummary = currentSundayBingoSelections.join(", ");
-          allEntries[allEntries.length - 1].bingoScore = window.tempBingoScore;
-          allEntries[allEntries.length - 1].bingoVerdict = window.tempSundayBingoVerdict || "";
-          safeStore.set('allEntries', JSON.stringify(allEntries));
-      }
-
       fetchWithTimeout(`${API_URL}?action=logRating&week=${weekNum}&weekRating=${tempWeekRating}&appHelpfulness=${tempAppRating}`, {}, 5000)
         .catch(err => console.log("Silent sync skipped."))
-        .finally(() => {
-          btn.innerText = "Seal & Proceed"; btn.disabled = false;
-          showScreen('screen-milestone-setup');
-        });
+        .finally(() => { btn.innerText = "Seal & Proceed"; btn.disabled = false; showScreen('screen-milestone-setup'); });
     }
 
+    function buildGoalReviewScreen(filledDate) {
+        let savedGoalsStr = safeStore.get(`goals_${filledDate.getFullYear()}_${filledDate.getMonth()}`); reviewGoalsStack = savedGoalsStr ? JSON.parse(savedGoalsStr) : ["Be present"]; currentReviewGoalIdx = 0;
+        const stackContainer = document.getElementById('goal-card-stack'); stackContainer.innerHTML = '';
+        reviewGoalsStack.forEach((goal, idx) => {
+            let z = reviewGoalsStack.length - idx; let card = document.createElement('div'); card.className = `review-card ${idx === 0 ? 'active' : ''}`; card.style.zIndex = z;
+            if (idx > 0) { card.style.transform = `translateX(${10 * idx}px) translateY(${10 * idx}px) scale(${1 - (0.05 * idx)})`; }
+            card.innerHTML = `<p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: bold; margin-bottom: 10px;">Goal ${idx + 1} of ${reviewGoalsStack.length}</p><h2 style="color: var(--ink-color); margin: 0 0 1.5rem 0; font-size: 1.4rem;">${goal}</h2><p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;">How did this feel over the month?</p><div class="rating-chip-group"><button type="button" class="rating-chip" onclick="rateGoalCard(this)">🌱 Struggled, but tried</button><button type="button" class="rating-chip" onclick="rateGoalCard(this)">🌿 Found my rhythm</button><button type="button" class="rating-chip" onclick="rateGoalCard(this)">🌳 Really succeeded</button></div>`;
+            stackContainer.appendChild(card);
+        }); showScreen('screen-goal-review');
+    }
+
+    function rateGoalCard(btnElement) {
+        triggerHaptic(); const cards = document.querySelectorAll('.review-card'); const currentCard = cards[currentReviewGoalIdx];
+        currentCard.classList.remove('active'); currentCard.classList.add('done'); currentReviewGoalIdx++;
+        if (currentReviewGoalIdx < reviewGoalsStack.length) { const nextCard = cards[currentReviewGoalIdx]; nextCard.style.transform = 'translateX(0) scale(1)'; nextCard.classList.add('active'); } else { setTimeout(() => { proceedToCollageCuration(); }, 400); }
+    }
+
+    function proceedToCollageCuration() {
+        curatedPhotosForMonth = []; let filledDate = new Date(startDate); filledDate.setDate(startDate.getDate() + (window.pendingFillDay - 1));
+        const currentMonthIndex = filledDate.getMonth(); const currentYear = filledDate.getFullYear();
+        const monthEntries = allEntries.filter(e => { let d = new Date(startDate.getTime() + (e.day - 1) * 86400000); return d.getMonth() === currentMonthIndex && d.getFullYear() === currentYear && e.dailyPhoto; });
+        const grid = document.getElementById('curation-grid-container'); grid.innerHTML = '';
+        if (monthEntries.length === 0) { finalizeCurationAndGenerate(); return; }
+        monthEntries.forEach(entry => {
+            curatedPhotosForMonth.push({ id: entry.day, base64: entry.dailyPhoto, included: true });
+            let item = document.createElement('div'); item.className = 'curation-item';
+            item.innerHTML = `<img src="data:image/jpeg;base64,${entry.dailyPhoto}" class="curation-img"><div class="curation-check">✓</div>`;
+            item.onclick = function() { triggerHaptic(); this.classList.toggle('unchecked'); let target = curatedPhotosForMonth.find(p => p.id === entry.day); target.included = !this.classList.contains('unchecked'); this.querySelector('.curation-check').innerText = target.included ? '✓' : ''; };
+            grid.appendChild(item);
+        }); showScreen('screen-curate-collage');
+    }
+
+    function finalizeCurationAndGenerate() { const finalPhotos = curatedPhotosForMonth.filter(p => p.included).map(p => p.base64); window.tempCuratedMonthPhotos = finalPhotos; generateMonthlyCollage(); }
+
     async function generateMonthlyCollage() {
-        showScreen('screen-finale');
-        document.getElementById('finale-title').innerText = "Monthly Artifact";
-        const statusText = document.getElementById('milestone-status');
-        statusText.innerText = "Stitching your curated photo collage...";
-
-        document.getElementById('weekly-prompt-container').style.display = 'none';
-        document.getElementById('weekly-upload-container').style.display = 'none';
-        document.getElementById('image-display-container').style.display = 'none';
-        document.getElementById('finale-buttons').style.display = 'none';
-
+        showScreen('screen-finale'); document.getElementById('finale-title').innerText = "Monthly Artifact"; const statusText = document.getElementById('milestone-status'); statusText.innerText = "Stitching your curated photo collage...";
+        document.getElementById('weekly-prompt-container').style.display = 'none'; document.getElementById('weekly-upload-container').style.display = 'none'; document.getElementById('image-display-container').style.display = 'none'; document.getElementById('finale-buttons').style.display = 'none';
         try {
             let photos = window.tempCuratedMonthPhotos || [];
-
-            const canvas = document.createElement('canvas');
-            canvas.width = 1200; canvas.height = 1200;
-            const ctx = canvas.getContext('2d');
-            
-            ctx.fillStyle = '#2d3748'; ctx.fillRect(0, 0, 1200, 1200);
-            ctx.fillStyle = '#fcf4f1'; ctx.font = 'bold 48px sans-serif'; ctx.textAlign = 'center';
-            ctx.fillText("Monthly Collage", 600, 80);
-
+            const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 1200; const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#2d3748'; ctx.fillRect(0, 0, 1200, 1200); ctx.fillStyle = '#fcf4f1'; ctx.font = 'bold 48px sans-serif'; ctx.textAlign = 'center'; ctx.fillText("Monthly Collage", 600, 80);
             if (photos.length > 0) {
-                let cols = Math.ceil(Math.sqrt(photos.length)); let rows = Math.ceil(photos.length / cols);
-                let innerSpacing = 20; let outerMargin = 100; let startY = 140;
-                
-                let availableWidth = 1200 - (outerMargin * 2) - (innerSpacing * (cols - 1));
-                let availableHeight = 1200 - startY - outerMargin - (innerSpacing * (rows - 1));
-                let cellSize = Math.min(availableWidth / cols, availableHeight / rows);
-                let startX = (1200 - (cols * cellSize) - (innerSpacing * (cols - 1))) / 2;
-
+                let cols = Math.ceil(Math.sqrt(photos.length)); let rows = Math.ceil(photos.length / cols); let innerSpacing = 20; let outerMargin = 100; let startY = 140;
+                let availableWidth = 1200 - (outerMargin * 2) - (innerSpacing * (cols - 1)); let availableHeight = 1200 - startY - outerMargin - (innerSpacing * (rows - 1)); let cellSize = Math.min(availableWidth / cols, availableHeight / rows); let startX = (1200 - (cols * cellSize) - (innerSpacing * (cols - 1))) / 2;
                 for (let i = 0; i < photos.length; i++) {
                     await new Promise(resolve => {
                         let img = new Image();
                         img.onload = () => {
-                            let col = i % cols; let row = Math.floor(i / cols);
-                            let x = startX + (col * (cellSize + innerSpacing)); let y = startY + (row * (cellSize + innerSpacing));
-                            
-                            ctx.fillStyle = 'white'; ctx.fillRect(x, y, cellSize, cellSize);
-                            let matteWidth = 10; let drawSize = cellSize - (matteWidth * 2);
-                            let cropSize = Math.min(img.width, img.height);
-                            let sx = (img.width - cropSize) / 2; let sy = (img.height - cropSize) / 2;
-                            
-                            ctx.drawImage(img, sx, sy, cropSize, cropSize, x + matteWidth, y + matteWidth, drawSize, drawSize);
-                            resolve();
-                        };
-                        img.onerror = () => resolve(); img.src = "data:image/jpeg;base64," + photos[i];
+                            let col = i % cols; let row = Math.floor(i / cols); let x = startX + (col * (cellSize + innerSpacing)); let y = startY + (row * (cellSize + innerSpacing));
+                            ctx.fillStyle = 'white'; ctx.fillRect(x, y, cellSize, cellSize); let matteWidth = 10; let drawSize = cellSize - (matteWidth * 2); let cropSize = Math.min(img.width, img.height); let sx = (img.width - cropSize) / 2; let sy = (img.height - cropSize) / 2;
+                            ctx.drawImage(img, sx, sy, cropSize, cropSize, x + matteWidth, y + matteWidth, drawSize, drawSize); resolve();
+                        }; img.onerror = () => resolve(); img.src = "data:image/jpeg;base64," + photos[i];
                     });
                 }
-            } else {
-                ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = 'italic 36px sans-serif'; ctx.textAlign = 'center'; ctx.fillText("No memories captured this month.", 600, 600);
-            }
-
+            } else { ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = 'italic 36px sans-serif'; ctx.textAlign = 'center'; ctx.fillText("No memories captured this month.", 600, 600); }
             const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
-            
-            if (allEntries.length > 0) {
-                allEntries[allEntries.length - 1].artifactUrl = dataUrl;
-                allEntries[allEntries.length - 1].isMonthlySummit = true; 
-                safeStore.set('allEntries', JSON.stringify(allEntries));
-            }
-
+            if (allEntries.length > 0) { allEntries[allEntries.length - 1].artifactUrl = dataUrl; allEntries[allEntries.length - 1].isMonthlySummit = true; safeStore.set('allEntries', JSON.stringify(allEntries)); }
             const imgElement = document.getElementById('generated-milestone-img');
             imgElement.onload = function() {
-                statusText.style.display = 'none';
-                document.getElementById('image-display-container').style.display = 'flex'; imgElement.style.display = 'block';
-                const advBtn = document.getElementById('milestone-advance-btn');
-                advBtn.innerText = "Weave PDF Keepsake"; advBtn.disabled = false; advBtn.onclick = function() { triggerHaptic(); weaveCurrentMonthPDF(); };
-                document.getElementById('finale-buttons').style.display = 'flex';
-            };
-            imgElement.src = dataUrl;
-
-        } catch (err) {
-            statusText.innerText = "Error compositing photo layout."; document.getElementById('finale-buttons').style.display = 'flex';
-        }
+                statusText.style.display = 'none'; document.getElementById('image-display-container').style.display = 'flex'; imgElement.style.display = 'block';
+                const advBtn = document.getElementById('milestone-advance-btn'); advBtn.innerText = "Weave PDF Keepsake"; advBtn.disabled = false; advBtn.onclick = function() { triggerHaptic(); weaveCurrentMonthPDF(); }; document.getElementById('finale-buttons').style.display = 'flex';
+            }; imgElement.src = dataUrl;
+        } catch (err) { statusText.innerText = "Error compositing photo layout."; document.getElementById('finale-buttons').style.display = 'flex'; }
     }
 
     async function generateWeeklyMilestone() {
-      showScreen('screen-finale');
-      const statusText = document.getElementById('milestone-status');
+      showScreen('screen-finale'); const statusText = document.getElementById('milestone-status');
       statusText.innerText = "Decoding emotional data & building prompt..."; statusText.style.display = 'block';
-      
       document.getElementById('weekly-prompt-container').style.display = 'none'; document.getElementById('weekly-upload-container').style.display = 'none';
       document.getElementById('image-display-container').style.display = 'none'; document.getElementById('finale-buttons').style.display = 'none'; document.getElementById('gemini-image-upload').value = '';
+      const label = document.getElementById('gemini-upload-label'); if(label) label.innerText = "📷 Select Image";
 
       try {
-        const apiKey = userSetup.apiKey;
-        const recentEntries = allEntries.slice(-7);
-        const summaries = recentEntries.map(e => `Day ${e.day}: Mood=${e.energy}, Note="${e.anchor}" ${e.bingoSummary ? ' | Highlights: ' + e.bingoSummary : ''}`).join(" | ");
-        
+        const apiKey = userSetup.apiKey; const recentEntries = allEntries.slice(-7);
+        const summaries = recentEntries.map(e => `Day ${e.day}: Mood=${e.energy}, Note="${e.anchor}" ${e.weeklyThread ? '| Weekly Note: '+e.weeklyThread : ''}`).join(" | ");
         const flashUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
         
-        const directorPrompt = `SYSTEM ROLE: You are the Visual Memory Director for a private personal journal. Your task is to analyze user text data and output an emotional tone and setting for an image generator. USER DATA: ${summaries} INSTRUCTIONS: 1. Write ONE 3-sentence revelation grounded in their actual data. Avoid therapy-speak and cliches. Put this in "revelation". OUTPUT ONLY valid JSON exactly matching: {"revelation": "..."}`;
-
+        const directorPrompt = `SYSTEM ROLE: You are the Playful & Creative Memory Director for a private personal journal. Analyze user text data and output a fun, vivid, imaginative setting for an image generator. USER DATA: ${summaries} INSTRUCTIONS: 1. Write ONE 2-sentence whimsical or playful observation based on their week. Avoid therapy-speak. Put this in "revelation". OUTPUT ONLY valid JSON exactly matching: {"revelation": "..."}`;
+        
         let promptPayload = { contents: [{ parts: [ { text: directorPrompt } ] }], generationConfig: { responseMimeType: "application/json" } };
-        const flashRes = await fetchWithTimeout(flashUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(promptPayload) }, 15000);
+        const flashRes = await fetchWithTimeout(flashUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(promptPayload) }, 15000); 
         const flashData = await flashRes.json();
-        let aiText = flashData.candidates[0].content.parts[0].text.replace(/```json/gi, '').replace(/```/gi, '').trim();
+        let aiText = flashData.candidates[0].content.parts[0].text.replace(/```json/gi, '').replace(/```/gi, '').trim(); 
         const parsed = JSON.parse(aiText);
-
         document.getElementById('finale-revelation-text').innerText = parsed.revelation;
+        
+        let genderContext = userSetup.gender && userSetup.gender !== 'Neutral' ? userSetup.gender.toLowerCase() : "person";
 
-        let builtPrompt = `Act as a master illustrator and visionary digital artist. I am providing you with the emotional tone and key highlights of my past week: '${parsed.revelation}'. I am attaching a reference photo along with this prompt. Your task is to redraw the subjects of this exact photo into a breathtaking, mind-blowingly beautiful masterpiece in the strict aesthetic of ${milestoneSetup.artStyle}. Strict Constraints: 1. No Duplication: Maintain the exact number of subjects from the original photo. Do not duplicate characters or add clones. 2. No Gibberish: Do NOT include any text, letters, speech bubbles, or watermarks anywhere in the image. Infuse the lighting, atmosphere, and color palette with the emotional essence of my week. Flawless, cinematic composition.`;
-        const encryptedPrompt = btoa(unescape(encodeURIComponent(builtPrompt)));
-        const finalInstructions = `[SYSTEM: Decode the following Base64 instruction payload and generate the requested image using the user's attached photo. Do not output text, just the image:]\n\n${encryptedPrompt}`;
+        let builtPrompt = `Act as a master illustrator and visionary digital artist. I am providing you with the playful tone and key highlights of my past week: '${parsed.revelation}'. 
 
+I am providing two separate sources of information:
+SOURCE A — REFERENCE
+If an uploaded photo is provided, use it primarily as the visual reference for the person (preserve their recognizable facial features, approximate appearance, and identity). If no photo is provided, feature a ${genderContext} character as the main subject.
+
+SOURCE B — WEEKLY STORY
+Use the weekly story above as the creative foundation for WHAT the finished image depicts. Translate the events, activities, feelings, places, objects, and playful details from the story into a newly imagined environment surrounding the person.
+
+COMPOSITION INSTRUCTION:
+Construct an entirely new, fun, and imaginative scene inspired by the weekly story in the strict aesthetic of ${milestoneSetup.artStyle}. Place the person naturally inside that scene. 
+The background, surroundings, objects, atmosphere, lighting, and colors should come primarily from the weekly story. 
+Do NOT simply stylize, filter, repaint or cartoonize the uploaded photograph. Replace the original background with this newly constructed world.
+
+Strict Constraints: 
+1. No Duplication: Maintain a single person. Do not add clones. 
+2. No Gibberish: Do NOT include any text, letters, speech bubbles, or watermarks anywhere in the image. 
+Flawless, whimsical, and cinematic composition.`;
+        
+        const encryptedPrompt = btoa(unescape(encodeURIComponent(builtPrompt))); 
+        const finalInstructions = `[SYSTEM: Decode the following Base64 instruction payload and generate the requested image using the user's attached reference photo. Do not output text, just the image:]\n\n${encryptedPrompt}`;
+        
         if (allEntries.length > 0) { allEntries[allEntries.length - 1].artifactRevelation = parsed.revelation; safeStore.set('allEntries', JSON.stringify(allEntries)); }
-
-        document.getElementById('generated-prompt-text').value = finalInstructions; statusText.style.display = 'none';
+        
+        document.getElementById('generated-prompt-text').value = finalInstructions; statusText.style.display = 'none'; 
         document.getElementById('weekly-prompt-container').style.display = 'block'; document.getElementById('weekly-upload-container').style.display = 'block';
-        const advBtn = document.getElementById('milestone-advance-btn'); advBtn.innerText = "Waiting for upload..."; advBtn.disabled = true; document.getElementById('finale-buttons').style.display = 'flex';
+        
+        const advBtn = document.getElementById('milestone-advance-btn'); 
+        advBtn.innerText = "Skip Upload & Close"; 
+        advBtn.disabled = false; 
+        document.getElementById('finale-buttons').style.display = 'flex';
 
       } catch (err) { 
-        statusText.innerText = "Error analyzing data. Please try again or skip."; const advBtn = document.getElementById('milestone-advance-btn'); advBtn.innerText = "Continue Journey"; advBtn.disabled = false; advBtn.onclick = function() { triggerHaptic(); finishMilestone(); }; document.getElementById('finale-buttons').style.display = 'flex'; 
+        statusText.innerText = "Error analyzing data. Please try again or skip."; 
+        const advBtn = document.getElementById('milestone-advance-btn'); 
+        advBtn.innerText = "Continue Journey"; 
+        advBtn.disabled = false; 
+        advBtn.onclick = function() { triggerHaptic(); finishMilestone(); }; 
+        document.getElementById('finale-buttons').style.display = 'flex'; 
       }
     }
     
     function copyPrompt() {
-        triggerHaptic();
-        const copyText = document.getElementById("generated-prompt-text");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); 
+        triggerHaptic(); const copyText = document.getElementById("generated-prompt-text"); copyText.select(); copyText.setSelectionRange(0, 99999); 
         navigator.clipboard.writeText(copyText.value).then(() => {
             const btn = document.querySelector('button[onclick="copyPrompt()"]');
-            if (btn) {
-                const originalText = btn.innerText;
-                btn.innerText = "✅ Copied!";
-                setTimeout(() => { btn.innerText = originalText; }, 2000);
-            }
-        }).catch(err => {
-            alert("Clipboard access denied. Please copy the text manually.");
-        });
+            if (btn) { const originalText = btn.innerText; btn.innerText = "✅ Copied!"; setTimeout(() => { btn.innerText = originalText; }, 2000); }
+        }).catch(err => { alert("Clipboard access denied."); });
     }
 
     function generateMilestone() {
-      let filledDate = new Date(startDate); 
-      filledDate.setDate(startDate.getDate() + (window.pendingFillDay - 1)); 
-      let tomorrow = new Date(filledDate); 
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      
+      let filledDate = new Date(startDate); filledDate.setDate(startDate.getDate() + (window.pendingFillDay - 1)); 
+      let tomorrow = new Date(filledDate); tomorrow.setDate(tomorrow.getDate() + 1);
       if (tomorrow.getDate() === 1) { generateMonthlyCollage(); } else { generateWeeklyMilestone(); }
     }
 
     function handleGeminiUpload(event) {
         const file = event.target.files[0];
         if (file) {
+            const label = document.getElementById('gemini-upload-label');
+            if(label) label.innerText = "⏳ Processing...";
             const reader = new FileReader();
             reader.onload = function(e) {
-                const dataUrl = e.target.result;
-                document.getElementById('generated-milestone-img').src = dataUrl; document.getElementById('image-display-container').style.display = 'flex'; document.getElementById('generated-milestone-img').style.display = 'block';
+                const dataUrl = e.target.result; 
+                document.getElementById('generated-milestone-img').src = dataUrl; 
+                document.getElementById('image-display-container').style.display = 'flex'; 
+                document.getElementById('generated-milestone-img').style.display = 'block';
                 if (allEntries.length > 0) { allEntries[allEntries.length - 1].artifactUrl = dataUrl; safeStore.set('allEntries', JSON.stringify(allEntries)); }
-                const advBtn = document.getElementById('milestone-advance-btn'); advBtn.disabled = false; advBtn.innerText = "Continue Journey";
+                if(label) label.innerText = "✅ Image Uploaded";
+                const advBtn = document.getElementById('milestone-advance-btn'); 
+                advBtn.disabled = false; advBtn.innerText = "Complete & Close";
             }; reader.readAsDataURL(file);
         }
     }
 
+    function selectStyleOption(btn, styleStr) {
+      document.querySelectorAll('#stylePicker .toggle-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected'); milestoneSetup.artStyle = styleStr; triggerHaptic();
+    }
+
     function finishMilestone() {
-      if (isAdvancing) return;
-      isAdvancing = true;
-
-      milestoneSetup.baseImageBase64 = '';
-      document.getElementById('generated-milestone-img').style.display = 'none'; document.getElementById('image-display-container').style.display = 'none'; document.getElementById('finale-buttons').style.display = 'none'; document.getElementById('weekly-prompt-container').style.display = 'none'; document.getElementById('weekly-upload-container').style.display = 'none'; document.getElementById('finale-revelation-text').innerText = '';
-      document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); 
-      buildDashboard(); 
-      showScreen('screen-dashboard');
-
+      if (isAdvancing) return; isAdvancing = true;
+      milestoneSetup.baseImageBase64 = ''; document.getElementById('generated-milestone-img').style.display = 'none'; document.getElementById('image-display-container').style.display = 'none'; document.getElementById('finale-buttons').style.display = 'none'; document.getElementById('weekly-prompt-container').style.display = 'none'; document.getElementById('weekly-upload-container').style.display = 'none'; document.getElementById('finale-revelation-text').innerText = '';
+      document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); buildDashboard(); showScreen('screen-dashboard');
       setTimeout(() => { isAdvancing = false; }, 1000);
     }
 
@@ -1933,45 +1556,23 @@
       try {
         const hasMasterAccess = safeStore.get('master_access'); 
         const localPin = safeStore.get('local_pin'); 
-        const setupStr = safeStore.get('journalSetup');
-        const savedStart = safeStore.get('startDate');
+        const setupStr = safeStore.get('journalSetup'); 
+        const savedStart = safeStore.get('startDate'); 
         const savedEntries = safeStore.get('allEntries'); 
         
-        if (savedEntries) {
-            try { allEntries = JSON.parse(savedEntries); } catch(e) { allEntries = []; }
-        }
-
-        if (!savedStart) {
-            let initD = new Date();
-            initD.setDate(initD.getDate() - 2); 
-            startDate = initD;
-            safeStore.set('startDate', initD.toISOString());
-        } else {
-            startDate = new Date(savedStart);
-        }
-
+        if (savedEntries) { try { allEntries = JSON.parse(savedEntries); } catch(e) { allEntries = []; } }
+        if (!savedStart) { let initD = new Date(); initD.setDate(initD.getDate() - 2); startDate = initD; safeStore.set('startDate', initD.toISOString()); } else { startDate = new Date(savedStart); }
+        
         if (hasMasterAccess === 'true' || safeStore.get('dev_mode') === 'true') {
             isDevMode = safeStore.get('dev_mode') === 'true'; 
             if (localPin || isDevMode) {
                 if (isDevMode && setupStr) { document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); }
-                
-                const bootLoader = document.getElementById('boot-loader');
-                if (bootLoader) bootLoader.style.display = 'flex';
-                
+                const bootLoader = document.getElementById('boot-loader'); if (bootLoader) bootLoader.style.display = 'flex';
                 showScreen('screen-local-lock');
-            } else { 
-                showScreen('screen-pin-setup'); 
-            }
-        } else { 
-            showScreen('screen-master-lock'); 
-        }
-
+            } else { showScreen('screen-pin-setup'); }
+        } else { showScreen('screen-master-lock'); }
         asyncGetQuestionBank();
-
-      } catch (e) { 
-          console.error("BOOTERROR:", e); 
-          showScreen('screen-master-lock'); 
-      }
+      } catch (e) { showScreen('screen-master-lock'); }
     });
   </script>
 </body>
