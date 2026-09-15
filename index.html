@@ -24,7 +24,7 @@
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-color); margin: 1.5rem 0 0.8rem 0; text-align: center;}
     
-    .theme-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 2rem; padding-top: 1rem; }
+    .theme-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 2rem; padding-top: 1rem; flex-wrap: wrap; max-width: 300px; margin-left: auto; margin-right: auto;}
     .theme-dot { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .theme-dot.active { border-color: var(--text-main); transform: scale(1.2); }
 
@@ -56,7 +56,7 @@
     }
 
     .affirmation-wrapper { position: relative; width: 100%; max-width: 350px; margin: 0 auto 2rem; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); min-height: 90px; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
-    .affirmation-text { font-size: 1rem; font-style: italic; color: var(--ink-color); font-weight: 600; text-align: center; z-index: 1; }
+    .affirmation-text { font-size: 1rem; font-style: italic; color: var(--ink-color); font-weight: 600; text-align: center; }
     #scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 10; display: block; }
     #scratch-canvas.revealed { animation: slideOut 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
 
@@ -121,6 +121,10 @@
     .climax-text { font-size: 1.1rem; line-height: 1.6; border-left: 3px solid var(--ink-color); padding-left: 15px; }
     .climax-echo-container { margin-top: 15px; background: rgba(255,255,255,0.15); padding: 15px; border-radius: 10px; }
     .climax-echo { font-size: 0.95rem; line-height: 1.5; color: #fdfdfd; font-weight: 500;}
+    
+    /* Translate Button Styles */
+    .translate-btn { background: transparent; border: 1px solid rgba(255,255,255,0.4); color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+    .translate-btn:active { background: rgba(255,255,255,0.2); }
 
     /* Graphical Snapshot Bars */
     .stat-row { display: flex; flex-direction: column; padding: 8px 0; border-bottom: 1px solid var(--border-light); font-size: 0.9rem; }
@@ -133,7 +137,6 @@
     .pdf-page { width: 800px; height: 1118px; background: #fcf4f1; margin: 0 auto; position: relative; overflow: hidden; padding: 60px; box-sizing: border-box; }
     #pdf-header-bar { width: 100%; background: var(--text-main); color: white; padding: 15px; text-align: center; position: fixed; top: 0; left: 0; z-index: 10001; font-weight: bold; font-size: 1.2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     #dynamic-loading-quote { font-size: 0.9rem; font-weight: normal; font-style: italic; margin-top: 8px; color: rgba(255,255,255,0.8); animation: fadeText 3s infinite; }
-    
     #pdf-pages-wrapper { padding-top: 80px; width: 100%; display: block; background: #fcf4f1;} 
     
     #tapestry-watermark { position: fixed; bottom: 12px; width: 100%; text-align: center; font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); opacity: 0.5; z-index: 9999; pointer-events: none; text-transform: uppercase; font-weight: 600; }
@@ -255,25 +258,17 @@
     </div>
   </div>
 
-  <!-- ONBOARDING -->
+  <!-- ONBOARDING (Cleaned Up: Just Gender) -->
   <div id="screen-onboarding" class="screen">
     <div style="position: relative; z-index: 1; margin: 0 auto; max-width: 450px; text-align: center; padding: 1.5rem; padding-bottom: 4rem;">
       <h1>Design Your Vault</h1>
       <p class="subtitle" style="margin-bottom: 2.5rem;">Choose your aesthetic to complete setup.</p>
       
-      <div class="section-title">1. Gender Alignment</div>
-      <div class="toggle-group" id="genderPicker" style="margin-bottom: 1.5rem;">
+      <div class="section-title">Gender Alignment</div>
+      <div class="toggle-group" id="genderPicker" style="margin-bottom: 2rem;">
         <button class="toggle-btn selected" onclick="triggerHaptic(); selectSetupOption('genderPicker', this, 'Female')">Female</button>
         <button class="toggle-btn" onclick="triggerHaptic(); selectSetupOption('genderPicker', this, 'Male')">Male</button>
         <button class="toggle-btn" onclick="triggerHaptic(); selectSetupOption('genderPicker', this, 'Neutral')">Neutral</button>
-      </div>
-      
-      <div class="section-title">2. Color Theme</div>
-      <div class="toggle-group" id="themePicker" style="margin-bottom: 2rem;">
-        <button class="toggle-btn selected" onclick="triggerHaptic(); selectThemeOption(this, '#d97757', '#fcf4f1')">Terracotta</button>
-        <button class="toggle-btn" onclick="triggerHaptic(); selectThemeOption(this, '#4a7c59', '#f1f8f4')">Sage</button>
-        <button class="toggle-btn" onclick="triggerHaptic(); selectThemeOption(this, '#5b7c99', '#f2f6f9')">Ocean</button>
-        <button class="toggle-btn" onclick="triggerHaptic(); selectThemeOption(this, '#9b7e9a', '#f9f2f8')">Lavender</button>
       </div>
       
       <button class="btn" type="button" style="margin-top: 1rem;" onclick="triggerHaptic(); completeOnboarding()">Save & Continue</button>
@@ -294,11 +289,15 @@
   <!-- DASHBOARD -->
   <div id="screen-dashboard" class="screen">
     <div style="position: relative; z-index: 1; text-align: center; width: 100%; padding-top: 0.5rem;">
+      <!-- Main Dashboard Color Selector (Expanded Options) -->
       <div class="theme-row" id="dashboard-theme-swapper">
           <div class="theme-dot active" style="background: #d97757;" onclick="triggerHaptic(); setAppTheme(this, '#d97757', '#fcf4f1')"></div>
           <div class="theme-dot" style="background: #4a7c59;" onclick="triggerHaptic(); setAppTheme(this, '#4a7c59', '#f1f8f4')"></div>
           <div class="theme-dot" style="background: #5b7c99;" onclick="triggerHaptic(); setAppTheme(this, '#5b7c99', '#f2f6f9')"></div>
           <div class="theme-dot" style="background: #9b7e9a;" onclick="triggerHaptic(); setAppTheme(this, '#9b7e9a', '#f9f2f8')"></div>
+          <div class="theme-dot" style="background: #b56576;" onclick="triggerHaptic(); setAppTheme(this, '#b56576', '#fdf5f6')"></div>
+          <div class="theme-dot" style="background: #d4a373;" onclick="triggerHaptic(); setAppTheme(this, '#d4a373', '#fefae0')"></div>
+          <div class="theme-dot" style="background: #4a5568;" onclick="triggerHaptic(); setAppTheme(this, '#4a5568', '#f7fafc')"></div>
       </div>
       
       <!-- PWA Install Banner -->
@@ -319,7 +318,7 @@
       <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
         <button type="button" onclick="triggerHaptic(); exportVault()" style="background: transparent; color: var(--ink-color); border: 1px solid var(--ink-color); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">⬇ Backup</button>
         <button type="button" onclick="triggerHaptic(); openArchiveModal()" style="background: transparent; color: var(--ink-color); border: 1px solid var(--ink-color); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">📚 Archives</button>
-        <button type="button" onclick="triggerHaptic(); downloadCalendarReminder()" style="background: var(--ink-color); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">🔔 Reminder</button>
+        <button type="button" onclick="triggerHaptic(); downloadCalendarReminder()" style="background: transparent; color: var(--ink-color); border: 1px solid var(--ink-color); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">🔔 Reminder</button>
       </div>
       
       <div id="monthly-progress-tracker" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;"></div>
@@ -371,6 +370,7 @@
       
       <div class="climax-echo-container">
         <div class="climax-echo" id="climax-echo-text">Analyzing your emotional data...</div>
+        <button class="translate-btn" type="button" id="translate-echo-btn" onclick="triggerHaptic(); translateEcho()">Translate to my language</button>
       </div>
     </div>
     <div style="position: relative; z-index: 2; margin-top: 1.5rem; width: 100%; max-width: 500px; display: flex; gap: 1rem;">
@@ -577,35 +577,13 @@
     function applyUserTheme() {
       document.documentElement.style.setProperty('--bg-color', userSetup.bgColor || '#fcf4f1');
       document.documentElement.style.setProperty('--ink-color', userSetup.color || '#d97757');
-      document.querySelectorAll('#themePicker .toggle-btn').forEach(btn => {
-          btn.classList.remove('selected');
-      });
-      // Try to re-select the correct theme button in the UI if possible
-      document.querySelectorAll('#themePicker .toggle-btn').forEach(btn => {
-         if(btn.innerText === "Terracotta" && userSetup.color === '#d97757') btn.classList.add('selected');
-         if(btn.innerText === "Sage" && userSetup.color === '#4a7c59') btn.classList.add('selected');
-         if(btn.innerText === "Ocean" && userSetup.color === '#5b7c99') btn.classList.add('selected');
-         if(btn.innerText === "Lavender" && userSetup.color === '#9b7e9a') btn.classList.add('selected');
-      });
-
       document.querySelectorAll('#dashboard-theme-swapper .theme-dot').forEach(dot => {
           dot.classList.remove('active');
           if (dot.style.backgroundColor === userSetup.color || dot.style.background.includes(userSetup.color)) dot.classList.add('active');
       });
     }
 
-    function setAppTheme(btnElement, color, bg) { 
-        userSetup.color = color; 
-        userSetup.bgColor = bg; 
-        safeStore.set('journalSetup', JSON.stringify(userSetup)); 
-        applyUserTheme(); 
-    }
-
-    function selectThemeOption(btn, color, bg) {
-        document.querySelectorAll('#themePicker .toggle-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        setAppTheme(btn, color, bg);
-    }
+    function setAppTheme(btnElement, color, bg) { userSetup.color = color; userSetup.bgColor = bg; safeStore.set('journalSetup', JSON.stringify(userSetup)); applyUserTheme(); }
 
     function showScreen(screenId) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -667,7 +645,6 @@
                 const savedStart = safeStore.get('startDate'); if (savedStart) startDate = new Date(savedStart);
                 document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork();
                 
-                // Route to onboarding if they never picked a gender
                 if (!userSetup.gender) { showScreen('screen-onboarding'); } else { checkStartOfMonthFlow(); }
             } catch(e) { showScreen('screen-onboarding'); }
         } else { showScreen('screen-onboarding'); }
@@ -924,15 +901,13 @@
     async function initScratchCard() {
         const textEl = document.getElementById('daily-affirmation-text');
         const canvas = document.getElementById('scratch-canvas');
-        
-        // Fix: Use a consistent local string key for the scratch card rather than an exact day number to avoid offset issues
-        let todayDateStr = new Date().toLocaleDateString('en-US');
-        
-        let currentDayNum = Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 3600 * 24)) + 1;
+        let startD = new Date(startDate); startD.setHours(0,0,0,0);
+        let todayD = new Date(); todayD.setHours(0,0,0,0);
+        let currentDayNum = Math.floor((todayD.getTime() - startD.getTime()) / (1000 * 3600 * 24)) + 1;
         let dailyAffirmation = masterAffirmations[currentDayNum % masterAffirmations.length];
         textEl.innerText = `"${dailyAffirmation}"`;
 
-        const isScratched = safeStore.get('affirmation_scratched_' + todayDateStr);
+        const isScratched = safeStore.get('affirmation_scratched_' + currentDayNum);
         if (isScratched === 'true') { canvas.style.display = 'none'; return; }
 
         canvas.style.display = 'block'; canvas.classList.remove('revealed');
@@ -954,20 +929,6 @@
         canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); }, {passive: false});
         canvas.addEventListener('touchend', () => { isDrawing = false; });
         canvas.addEventListener('touchmove', scratch, {passive: false});
-        
-        // Attach checking logic so it saves to today's strict date key
-        canvas.addEventListener('mouseup', () => { checkClearance(canvas, ctx, todayDateStr); });
-        canvas.addEventListener('touchend', () => { checkClearance(canvas, ctx, todayDateStr); });
-    }
-    
-    function checkClearance(canvas, ctx, todayDateStr) {
-        const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-        let transparentPixels = 0;
-        for (let i = 3; i < pixels.length; i += 4) { if (pixels[i] === 0) transparentPixels++; }
-        const percent = (transparentPixels / (pixels.length / 4)) * 100;
-        if (percent > 40) {
-            triggerHaptic(); canvas.classList.add('revealed'); safeStore.set('affirmation_scratched_' + todayDateStr, 'true');
-        }
     }
 
     function selectSetupOption(groupId, btnElement, value) {
@@ -1133,7 +1094,7 @@
 
     function startDictation(targetId, btnElement) {
       triggerHaptic();
-      if (!('webkitSpeechRecognition' in window)) { alert("Voice dictation not supported in this browser."); return; }
+      if (!('webkitSpeechRecognition' in window)) { alert("Voice dictation not supported."); return; }
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.continuous = true; recognition.interimResults = true;
       btnElement.classList.add('recording'); btnElement.innerText = "🎙️ Listening... (Tap to stop)";
@@ -1305,10 +1266,33 @@
       showScreen('screen-climax');
     }
 
+    async function translateEcho() {
+        const btn = document.getElementById('translate-echo-btn');
+        const echoEl = document.getElementById('climax-echo-text');
+        const userText = document.getElementById('anchor-input').value.trim();
+        if (!userText || !window.currentEchoText) return;
+
+        btn.innerText = "Translating..."; btn.disabled = true;
+        const apiKey = userSetup.apiKey;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
+        const prompt = `The user wrote their journal entry in this language/script: "${userText}". Translate this exact English sentence into that same natural language and script: "${window.currentEchoText}". Output ONLY the translated sentence, nothing else.`;
+        
+        try {
+            const response = await fetchWithTimeout(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{text: prompt}] }] }) }, 10000);
+            const data = await response.json();
+            echoEl.innerText = data.candidates[0].content.parts[0].text.trim();
+            btn.style.display = 'none';
+        } catch (e) {
+            btn.innerText = "Translate"; btn.disabled = false; alert("Translation failed.");
+        }
+    }
+
     function downloadClimax() {
       const btn = document.getElementById('climax-download-btn'); const originalText = btn.innerText; btn.innerText = "Loading..."; btn.disabled = true;
+      document.getElementById('translate-echo-btn').style.display = 'none';
       html2canvas(document.getElementById('climax-capture-area'), { useCORS: true, backgroundColor: null }).then(canvas => {
         let link = document.createElement('a'); link.download = `Day_${window.pendingFillDay}_Memory.png`; link.href = canvas.toDataURL("image/png"); link.click(); btn.innerText = originalText; btn.disabled = false;
+        if(document.getElementById('anchor-input').value.trim()) document.getElementById('translate-echo-btn').style.display = 'inline-block';
       }).catch(err => { btn.innerText = originalText; btn.disabled = false; });
     }
 
