@@ -6,11 +6,13 @@
   <title>Moments Journal</title>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Tone.js for Audio Feedback -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
   <style>
     :root { --bg-color: #fcf4f1; --text-main: #2d3748; --text-muted: #718096; --border-light: #e2e8f0; --ink-color: #d97757; }
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background-color 0.5s ease; }
+    body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background-color 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .screen { display: none; min-height: 100vh; width: 100%; flex-direction: column; }
     .screen.active { display: flex; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -38,22 +40,27 @@
     #screen-onboarding { padding: 1.5rem; padding-bottom: 4rem; overflow-y: auto; text-align: center; }
     #screen-dashboard { justify-content: flex-start; align-items: center; padding: 1.5rem; padding-bottom: 6rem; overflow-y: auto;}
     
-    .month-container { width: 100%; max-width: 600px; margin-bottom: 2.5rem; }
+    /* --- CALENDAR UI ENHANCEMENTS --- */
+    .month-container { 
+      background: rgba(255, 255, 255, 0.6); 
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
+      border: 1px solid rgba(255, 255, 255, 0.8); 
+      border-radius: 20px; padding: 1.5rem; 
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03); 
+      margin-bottom: 2.5rem; width: 100%; max-width: 600px; 
+    }
     .month-header { text-align: left; padding-left: 8px; margin-bottom: 1rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem; }
     .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; justify-items: center; padding-left: 0; }
     .weekday-header { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; padding-bottom: 6px; text-align: center; }
     
     .map-node { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; position: relative; z-index: 2; flex-shrink: 0; user-select: none; }
-    .map-node.completed { background-color: var(--ink-color); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 2px solid transparent; }
-    .map-node.locked { background-color: rgba(255,255,255,0.8); color: var(--text-main); opacity: 1; border: 1px solid var(--border-light); cursor: not-allowed; }
+    .map-node.completed { background: linear-gradient(135deg, var(--ink-color) 0%, #b55d3f 100%); box-shadow: 0 4px 10px rgba(217, 119, 87, 0.3), inset 0 2px 0 rgba(255,255,255,0.2); border: none; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+    .map-node.locked, .map-node.past-ignored { background-color: rgba(255, 255, 255, 0.5); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); color: var(--text-muted); cursor: not-allowed; }
     .map-node.available { background-color: transparent; color: var(--ink-color); border: 2px solid var(--ink-color); opacity: 0.8; }
-    .map-node.past-ignored { background-color: transparent; color: var(--text-muted); opacity: 0.3; border: 1px dashed var(--border-light); cursor: not-allowed; }
+    .map-node.past-ignored { opacity: 0.3; border: 1px dashed var(--border-light); }
 
-    .map-node.active { background-color: var(--ink-color); color: white; border: 3px solid white; box-shadow: 0 0 15px var(--ink-color), 0 0 30px var(--ink-color); transform: scale(1.2); font-weight: bold; animation: superGlow 1.2s infinite alternate; z-index: 10; }
-    @keyframes superGlow { 
-      0% { box-shadow: 0 0 8px rgba(217, 119, 87, 0.6); transform: scale(1.15); } 
-      100% { box-shadow: 0 0 25px rgba(217, 119, 87, 1), 0 0 50px rgba(217, 119, 87, 0.8); transform: scale(1.25); } 
-    }
+    .map-node.active { background-color: white; color: var(--ink-color); border: 3px solid var(--ink-color); box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.7); animation: activeDayPulse 2s infinite cubic-bezier(0.66, 0, 0, 1); font-weight: 800; z-index: 10; }
+    @keyframes activeDayPulse { 0% { box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.7); transform: scale(1.05); } 70% { box-shadow: 0 0 0 15px rgba(217, 119, 87, 0); transform: scale(1.15); } 100% { box-shadow: 0 0 0 0 rgba(217, 119, 87, 0); transform: scale(1.05); } }
 
     .affirmation-wrapper { position: relative; width: 100%; max-width: 350px; margin: 0 auto 2rem; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); min-height: 90px; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
     .affirmation-text { font-size: 1rem; font-style: italic; color: var(--ink-color); font-weight: 600; text-align: center; position: relative; z-index: 1; pointer-events: none; }
@@ -96,6 +103,7 @@
     
     .mic-btn { display: inline-flex; align-items: center; gap: 5px; background: #e2e8f0; color: #2d3748; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; margin-bottom: 8px; font-weight: 600; transition: all 0.3s ease; }
     .mic-btn.recording { background: #e53e3e; color: white; box-shadow: 0 0 15px rgba(229, 62, 62, 0.6); animation: pulse 1.5s infinite; }
+    
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
     .file-upload-wrapper { position: relative; width: 100%; max-width: 400px; margin: 0 auto;}
@@ -106,9 +114,53 @@
     .quick-ticks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 2.5rem; }
     .tick-wrapper { display: flex; flex-direction: column; width: 100%; transition: all 0.3s ease; }
     .tick-wrapper.expanded { grid-column: span 2; }
-    .tick-chip { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-light); border-radius: 12px; background: rgba(255,255,255,0.8); color: var(--text-main); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; user-select: none; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-    .tick-chip.selected { background-color: var(--ink-color); color: white; border-color: var(--ink-color); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(217, 119, 87, 0.4); font-weight: 600; }
+    
+    .tick-chip { 
+        width: 100%; padding: 0.8rem 1rem; border: 2px solid transparent; border-radius: 16px; 
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 250, 240, 0.8) 100%); 
+        color: var(--text-main); font-size: 0.85rem; font-weight: 500; cursor: pointer; 
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); user-select: none; text-align: left; 
+        box-shadow: 0 4px 15px rgba(217, 119, 87, 0.08); position: relative; overflow: hidden;
+    }
+    .tick-chip:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(217, 119, 87, 0.15); }
+    .tick-chip:active { animation: pop-squish 0.4s ease-out; }
+    .tick-chip.selected { background: var(--ink-color); color: white; border-color: var(--ink-color); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(217, 119, 87, 0.3); font-weight: 600; }
+    @keyframes pop-squish { 0% { transform: scale(1); } 50% { transform: scale(0.95); } 100% { transform: scale(1.02); } }
+    @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+    .tick-bubble-ripple { position: absolute; width: 30px; height: 30px; background: rgba(255,255,255,0.7); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: ripple 0.6s ease-out; }
+    
     .tick-elab { margin-top: 8px; width: 100%; display: none; border: 2px dashed var(--ink-color); background: rgba(255,255,255,0.95); animation: fadeIn 0.3s; font-style: italic; }
+
+    /* Word Bloom Animation */
+    .word-bloom-container { position: relative; width: 100%; margin-bottom: 1rem; }
+    .bloom-progress { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.9rem; color: var(--text-muted); transition: color 0.3s ease; }
+    .bloom-icon { font-size: 1.5rem; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; }
+    @keyframes bloom-grow { 0% { transform: scale(0.8) rotate(0deg); opacity: 0.6; } 50% { transform: scale(1.15) rotate(10deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+    .bloom-icon.growing { animation: bloom-grow 0.6s ease-out; }
+    .word-count { font-size: 0.85rem; font-weight: 600; color: var(--ink-color); }
+
+    /* Wax Seal Hold-to-Activate Button */
+    .seal-button {
+      position: relative; width: 120px; height: 120px; border-radius: 50%;
+      border: 3px solid var(--ink-color);
+      background: linear-gradient(135deg, #fef3e2 0%, #f5e6d3 100%);
+      cursor: pointer; font-size: 3rem; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease; box-shadow: 0 6px 20px rgba(217, 119, 87, 0.2);
+      user-select: none; margin: 0 auto 1rem;
+    }
+    .seal-button:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(217, 119, 87, 0.3); }
+    .seal-button:active { transform: scale(0.95); }
+    
+    .seal-progress-ring { position: absolute; transform: rotate(-90deg); width: 120px; height: 120px; top: 0; left: 0; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
+    .seal-button.pressing .seal-progress-ring { opacity: 1; }
+    .seal-progress-ring circle { transition: stroke-dashoffset 0.05s linear; stroke: var(--ink-color); fill: none; stroke-width: 4; }
+    
+    @keyframes wax-melt { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; } 100% { opacity: 0; transform: scale(1.3); } }
+    .wax-particle { position: absolute; pointer-events: none; }
+    .wax-particle.melting { animation: wax-melt 0.8s ease-out forwards; }
+    
+    @keyframes splash { 0% { opacity: 1; transform: scale(0.5); } 100% { opacity: 0; transform: scale(2); } }
+    .seal-success-splash { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; pointer-events: none; animation: splash 0.6s ease-out forwards; z-index: 100; }
 
     .toggle-group { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;}
     .toggle-btn { flex: 1; min-width: 100px; padding: 0.6rem; border: 1px solid var(--border-light); border-radius: 20px; background: white; font-weight: 600; color: var(--text-main); cursor: pointer; transition: all 0.2s; font-size: 0.85rem;}
@@ -140,22 +192,13 @@
     #pdf-pages-wrapper { padding-top: 80px; width: 100%; display: block; background: #fcf4f1;} 
     
     #tapestry-watermark { position: fixed; bottom: 12px; width: 100%; text-align: center; font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); opacity: 0.5; z-index: 9999; pointer-events: none; text-transform: uppercase; font-weight: 600; }
-
-    .flower-container { position: relative; width: 80px; height: 80px; margin-bottom: 2.5rem; animation: spin 12s linear infinite; }
-    .flower-petal { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: var(--ink-color); transform-origin: bottom right; margin-top: -40px; margin-left: -40px; animation: petal-bloom 2s ease-in-out infinite alternate; }
-    .flower-petal:nth-child(1) { --rot: 0deg; } .flower-petal:nth-child(2) { --rot: 45deg; animation-delay: 0.1s;} .flower-petal:nth-child(3) { --rot: 90deg; animation-delay: 0.2s;} .flower-petal:nth-child(4) { --rot: 135deg; animation-delay: 0.3s;} .flower-petal:nth-child(5) { --rot: 180deg; animation-delay: 0.4s;} .flower-petal:nth-child(6) { --rot: 225deg; animation-delay: 0.5s;} .flower-petal:nth-child(7) { --rot: 270deg; animation-delay: 0.6s;} .flower-petal:nth-child(8) { --rot: 315deg; animation-delay: 0.7s;}
-    @keyframes petal-bloom { 0% { transform: rotate(var(--rot)) scale(0.2); border-radius: 50%; opacity: 0.2; } 100% { transform: rotate(var(--rot)) scale(1.1); border-radius: 50% 50% 0 50%; opacity: 0.7; } }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
   <!-- DISTRACTION LOADER -->
   <div id="boot-loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 99999; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.6s ease;">
-    <div class="flower-container">
-      <div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div>
-      <div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div><div class="flower-petal"></div>
-    </div>
+    <div style="font-size: 3rem; margin-bottom: 1rem; animation: pulse 2s infinite;">✨</div>
     <h2 style="color: var(--ink-color); margin-bottom: 0.5rem;">Unlocking Vault...</h2>
     <p style="color: var(--text-muted); font-style: italic; font-size: 0.95rem; animation: fadeText 3s infinite;">Gathering your thoughts from the cloud</p>
   </div>
@@ -258,7 +301,6 @@
     </div>
   </div>
 
-  <!-- ONBOARDING (Cleaned Up: Just Gender) -->
   <div id="screen-onboarding" class="screen">
     <div style="position: relative; z-index: 1; margin: 0 auto; max-width: 450px; text-align: center; padding: 1.5rem; padding-bottom: 4rem;">
       <h1>Design Your Vault</h1>
@@ -275,7 +317,6 @@
     </div>
   </div>
 
-  <!-- MONTHLY GOALS ACCORDION -->
   <div id="screen-monthly-goals" class="screen">
     <div style="position: relative; z-index: 1; margin: 0 auto; max-width: 450px; text-align: center; padding: 2rem 1.5rem;">
       <h1 style="color: var(--ink-color);">Monthly Intentions</h1>
@@ -286,17 +327,15 @@
     </div>
   </div>
 
-  <!-- DASHBOARD -->
   <div id="screen-dashboard" class="screen">
     <div style="position: relative; z-index: 1; text-align: center; width: 100%; padding-top: 0.5rem;">
       
-      <!-- Top Action Bar (Edit Profile & Hard Reset moved here) -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0 10px;">
         <a href="#" onclick="event.preventDefault(); showScreen('screen-onboarding');" style="color: var(--text-muted); font-size: 0.8rem; text-decoration: none; display: flex; align-items: center; gap: 5px;">⚙️ Edit Profile</a>
+        <button id="audio-toggle-btn" class="toggle-btn" onclick="toggleAppAudio()" style="min-width: 40px; padding: 4px 8px; margin: 0 10px;">🔊</button>
         <a href="#" onclick="event.preventDefault(); resetApp();" style="color: #e53e3e; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 5px;">⚠️ Reset Data</a>
       </div>
 
-      <!-- Main Dashboard Color Selector -->
       <div class="theme-row" id="dashboard-theme-swapper">
           <div class="theme-dot active" style="background: #d97757;" onclick="triggerHaptic(); setAppTheme(this, '#d97757', '#fcf4f1')"></div>
           <div class="theme-dot" style="background: #4a7c59;" onclick="triggerHaptic(); setAppTheme(this, '#4a7c59', '#f1f8f4')"></div>
@@ -307,10 +346,9 @@
           <div class="theme-dot" style="background: #4a5568;" onclick="triggerHaptic(); setAppTheme(this, '#4a5568', '#f7fafc')"></div>
       </div>
       
-      <!-- PWA Install Banner -->
       <div id="pwa-install-banner" style="display: none; background: rgba(255,255,255,0.85); border: 1px solid var(--ink-color); padding: 12px; border-radius: 12px; margin: 0 auto 1.5rem auto; max-width: 350px; font-size: 0.85rem; text-align: left; color: var(--text-main); position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
           <button onclick="document.getElementById('pwa-install-banner').style.display='none'; safeStore.set('hide_pwa', 'true');" style="position: absolute; top: 8px; right: 8px; background: none; border: none; font-size: 1rem; color: var(--text-muted); cursor: pointer;">✕</button>
-          <div style="font-weight: bold; color: var(--ink-color); margin-bottom: 4px;">📲 move app to Homescreen</div>
+          <div style="font-weight: bold; color: var(--ink-color); margin-bottom: 4px;">📲 Move app to Homescreen</div>
           Tap <b style="font-size:1.1rem;">⍗</b> (iOS) or <b style="font-size:1.1rem;">⋮</b> (Android) then <b>"Add to Home Screen"</b> to use this as a full-screen app.
       </div>
 
@@ -330,6 +368,14 @@
       
       <div id="monthly-progress-tracker" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;"></div>
 
+      <!-- HUGE DATE VIEW -->
+      <div id="huge-date-view" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 1rem; width: 100%; max-width: 400px; margin: 0 auto; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 2rem;">
+        <div style="font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 15px; font-weight: 600;">Today is</div>
+        <div id="huge-date-text" style="font-size: 4.5rem; font-weight: 800; color: var(--ink-color); line-height: 1; letter-spacing: -2px; margin-bottom: 10px; text-shadow: 0 4px 15px rgba(0,0,0,0.1);">Oct 7</div>
+        <div id="huge-day-number" style="font-size: 1.2rem; font-weight: 600; color: var(--text-main); margin-bottom: 3rem; background: rgba(255, 255, 255, 0.5); padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border-light); color: var(--ink-color);">Day X</div>
+        <button class="btn" type="button" onclick="startTodayEntry()" style="max-width: 250px; font-size: 1.1rem; padding: 1rem; border-radius: 30px; background-color: var(--ink-color); color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15); animation: activeDayPulse 2s infinite cubic-bezier(0.66, 0, 0, 1);">Capture Moment</button>
+      </div>
+
       <div id="journey-map-container" style="text-align: left; max-width: 600px; margin: 0 auto; padding-bottom: 3rem;"></div>
     </div>
   </div>
@@ -346,7 +392,7 @@
           <span>Heavy</span><span>Balanced</span><span>Radiant</span>
         </div>
       </div>
-      <button class="btn" type="button" style="margin-top: 4rem;" onclick="triggerHaptic(); confirmVibe()">Continue</button>
+      <button class="btn" type="button" style="margin-top: 4rem;" onclick="triggerHaptic(); playAppSound('click'); confirmVibe()">Continue</button>
     </div>
   </div>
 
@@ -366,10 +412,9 @@
     <div id="climax-capture-area">
       <div class="climax-date" id="climax-date-text"></div>
       <div class="climax-vibe" id="climax-vibe-text"></div>
-      <div class="climax-ticks" id="climax-ticks-text"></div>
+      <div class="climax-ticks" id="climax-ticks-text" style="display:flex; flex-direction:column; gap:8px;"></div>
       <div class="climax-text" id="climax-anchor-text"></div>
       <img id="climax-photo-preview" src="" style="width: 100%; border-radius: 8px; margin-top: 10px; display: none; object-fit: cover;">
-      
       <div class="climax-echo-container">
         <div class="climax-echo" id="climax-echo-text">Analyzing your emotional data...</div>
         <button class="translate-btn" type="button" id="translate-echo-btn" onclick="triggerHaptic(); translateEcho()">Translate to my language</button>
@@ -531,6 +576,38 @@
     let currentReviewGoalIdx = 0;
     let curatedPhotosForMonth = [];
 
+    // --- AUDIO ENGINE ---
+    let audioUnlocked = false;
+    let isAudioMuted = safeStore.get('journal_muted') === 'true';
+    let clickSynth, chimeSynth;
+
+    async function unlockAudio() {
+        if (audioUnlocked || isAudioMuted || !window.Tone) return;
+        try {
+            await Tone.start();
+            clickSynth = new Tone.MembraneSynth({ pitchDecay: 0.01, octave: 2, volume: -10 }).toDestination();
+            chimeSynth = new Tone.PolySynth(Tone.Synth, { oscillator: { type: "sine" }, envelope: { attack: 0.05, decay: 0.3, sustain: 0.2, release: 1.5 }, volume: -12 }).toDestination();
+            audioUnlocked = true;
+        } catch (e) { console.warn("Audio context failed to start."); }
+    }
+
+    document.body.addEventListener('pointerdown', unlockAudio, { once: true });
+    document.body.addEventListener('touchstart', unlockAudio, { once: true });
+
+    function toggleAppAudio() {
+        isAudioMuted = !isAudioMuted;
+        safeStore.set('journal_muted', isAudioMuted);
+        const btn = document.getElementById('audio-toggle-btn');
+        if(btn) btn.innerText = isAudioMuted ? '🔇' : '🔊';
+        if (!isAudioMuted && !audioUnlocked) unlockAudio();
+    }
+
+    function playAppSound(type) {
+        if (isAudioMuted || !audioUnlocked || !window.Tone || Tone.context.state !== 'running') return;
+        if (type === 'click' && clickSynth) clickSynth.triggerAttackRelease("C2", "32n");
+        else if (type === 'chime' && chimeSynth) chimeSynth.triggerAttackRelease(["G4", "B4", "D5"], "8n");
+    }
+
     const masterGoalCategories = {
       "Mind & Wellbeing": ["Overthink less", "Stress less", "Be kinder", "Complain less", "Say no more", "Worry less", "Rest guilt-free", "Be present", "Let things go", "Start earlier", "Trust myself", "Less screen time", "Sleep earlier", "Snooze less", "Take breaks", "Take time off", "Embrace lazy days", "Stop doomscrolling", "Unplug from work"],
       "Social & Life": ["Go out more", "Call family", "See friends", "Make plans", "Say yes", "Connect more", "Reach out", "Try new things", "Make memories", "Go outside", "Take photos", "Celebrate small wins", "Text friends", "Host casually", "Cancel if tired", "Give compliments", "Change routines", "Sit outside"],
@@ -552,7 +629,12 @@
         clearTimeout(id); return res;
     }
 
-    function triggerHaptic() { if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(40); }
+    function triggerHaptic(intensity = 'medium', duration = 100) { 
+        if (window.navigator && window.navigator.vibrate) {
+            const pattern = intensity === 'light' ? 20 : intensity === 'heavy' ? 150 : 100;
+            window.navigator.vibrate(pattern); 
+        }
+    }
 
     function toggleApiKeyVisibility() {
       const input = document.getElementById('master-api-input');
@@ -582,6 +664,9 @@
           dot.classList.remove('active');
           if (dot.style.backgroundColor === userSetup.color || dot.style.background.includes(userSetup.color)) dot.classList.add('active');
       });
+      
+      const audioBtn = document.getElementById('audio-toggle-btn');
+      if (audioBtn) audioBtn.innerText = isAudioMuted ? '🔇' : '🔊';
     }
 
     function setAppTheme(btnElement, color, bg) { 
@@ -589,6 +674,12 @@
         userSetup.bgColor = bg; 
         safeStore.set('journalSetup', JSON.stringify(userSetup)); 
         applyUserTheme(); 
+    }
+
+    function selectThemeOption(btn, color, bg) {
+        document.querySelectorAll('#themePicker .toggle-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        setAppTheme(btn, color, bg);
     }
 
     function showScreen(screenId) {
@@ -944,7 +1035,6 @@
         const textEl = document.getElementById('daily-affirmation-text');
         const canvas = document.getElementById('scratch-canvas');
         
-        // Strict date key format
         let todayDateStr = "scratch_" + new Date().toDateString().replace(/\s+/g, '_');
         
         let currentDayNum = Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 3600 * 24)) + 1;
@@ -1040,6 +1130,22 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = 'Journal_Reminder.ics'; a.click();
     }
+    
+    function startTodayEntry() {
+        let realToday = new Date(); realToday.setHours(0,0,0,0);
+        let startCompare = new Date(startDate); startCompare.setHours(0,0,0,0);
+        let diffTimeToday = realToday.getTime() - startCompare.getTime();
+        let todayDayNumber = Math.floor(diffTimeToday / (1000 * 3600 * 24)) + 1;
+        
+        triggerHaptic(); 
+        playAppSound('click');
+        window.pendingFillDay = todayDayNumber; 
+        checkTimeCapsule(); 
+        document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); 
+        document.getElementById('vibe-slider').value = 2; 
+        updateSunVibe(2); 
+        showScreen('screen-energy');
+    }
 
     function buildDashboard() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
@@ -1060,58 +1166,76 @@
       }
 
       const container = document.getElementById('journey-map-container');
+      const hugeDateView = document.getElementById('huge-date-view');
       container.innerHTML = ''; 
+      
       let startYear = startDate.getFullYear(); let startMonth = startDate.getMonth();
       let realToday = new Date(); realToday.setHours(0,0,0,0);
       let startCompare = new Date(startDate); startCompare.setHours(0,0,0,0);
+      
+      let diffTimeToday = realToday.getTime() - startCompare.getTime();
+      let todayDayNumber = Math.floor(diffTimeToday / (1000 * 3600 * 24)) + 1;
+      let isTodayCompleted = allEntries.some(e => e.day === todayDayNumber);
 
-      for (let mOffset = 0; mOffset < 12; mOffset++) {
-          let monthDate = new Date(startYear, startMonth + mOffset, 1);
-          let m = monthDate.getMonth(); let y = monthDate.getFullYear();
-          let daysInMonth = new Date(y, m + 1, 0).getDate();
-
-          let monthContainer = document.createElement('div'); monthContainer.className = "month-container";
-          monthContainer.innerHTML = `
-              <div class="month-header">
-                <div style="font-weight: 400; font-size: 0.9rem; font-style: italic; color: var(--text-muted); margin-bottom: 0.4rem; line-height: 1.4;">"${happyCaptions[m]}"</div>
-                <div style="font-size: 1.2rem; font-weight: 700; color: var(--ink-color);">${monthNames[m]} ${y}</div>
-              </div>
-              <div class="month-grid" id="grid-month-${y}-${m}"></div>`;
-          container.appendChild(monthContainer);
+      if (!isTodayCompleted) {
+          container.style.display = 'none';
+          hugeDateView.style.display = 'flex';
           
-          let gridNode = document.getElementById(`grid-month-${y}-${m}`);
-          const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-          weekdays.forEach(day => { let headerEl = document.createElement('div'); headerEl.className = 'weekday-header'; headerEl.innerText = day; gridNode.appendChild(headerEl); });
-          let firstDayIndex = new Date(y, m, 1).getDay();
-          for (let i = 0; i < firstDayIndex; i++) { let emptyCell = document.createElement('div'); gridNode.appendChild(emptyCell); }
+          const options = { month: 'short', day: 'numeric' };
+          document.getElementById('huge-date-text').innerText = realToday.toLocaleDateString('en-US', options);
+          document.getElementById('huge-day-number').innerText = `Day ${todayDayNumber}`;
+      } else {
+          hugeDateView.style.display = 'none';
+          container.style.display = 'block';
 
-          for (let d = 1; d <= daysInMonth; d++) {
-              let nodeDate = new Date(y, m, d); nodeDate.setHours(0,0,0,0);
-              let diffTime = nodeDate.getTime() - startCompare.getTime();
-              let nodeDayNumber = Math.floor(diffTime / (1000 * 3600 * 24)) + 1;
-              let isCompleted = allEntries.some(e => e.day === nodeDayNumber);
-              let node = document.createElement('div');
+          for (let mOffset = 0; mOffset < 12; mOffset++) {
+              let monthDate = new Date(startYear, startMonth + mOffset, 1);
+              let m = monthDate.getMonth(); let y = monthDate.getFullYear();
+              let daysInMonth = new Date(y, m + 1, 0).getDate();
 
-              if (nodeDate < startCompare) {
-                  node.className = 'map-node past-ignored'; node.innerHTML = d;
-              } else if (nodeDate.getTime() === realToday.getTime()) {
-                  if (isCompleted) {
-                      node.className = 'map-node completed'; node.innerHTML = '✓';
+              let monthContainer = document.createElement('div'); monthContainer.className = "month-container";
+              monthContainer.innerHTML = `
+                  <div class="month-header">
+                    <div style="font-weight: 400; font-size: 0.9rem; font-style: italic; color: var(--text-muted); margin-bottom: 0.4rem; line-height: 1.4;">"${happyCaptions[m]}"</div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--ink-color);">${monthNames[m]} ${y}</div>
+                  </div>
+                  <div class="month-grid" id="grid-month-${y}-${m}"></div>`;
+              container.appendChild(monthContainer);
+              
+              let gridNode = document.getElementById(`grid-month-${y}-${m}`);
+              const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+              weekdays.forEach(day => { let headerEl = document.createElement('div'); headerEl.className = 'weekday-header'; headerEl.innerText = day; gridNode.appendChild(headerEl); });
+              let firstDayIndex = new Date(y, m, 1).getDay();
+              for (let i = 0; i < firstDayIndex; i++) { let emptyCell = document.createElement('div'); gridNode.appendChild(emptyCell); }
+
+              for (let d = 1; d <= daysInMonth; d++) {
+                  let nodeDate = new Date(y, m, d); nodeDate.setHours(0,0,0,0);
+                  let diffTime = nodeDate.getTime() - startCompare.getTime();
+                  let nodeDayNumber = Math.floor(diffTime / (1000 * 3600 * 24)) + 1;
+                  let isCompleted = allEntries.some(e => e.day === nodeDayNumber);
+                  let node = document.createElement('div');
+
+                  if (nodeDate < startCompare) {
+                      node.className = 'map-node past-ignored'; node.innerHTML = d;
+                  } else if (nodeDate.getTime() === realToday.getTime()) {
+                      if (isCompleted) {
+                          node.className = 'map-node completed'; node.innerHTML = '✓';
+                      } else {
+                          node.className = 'map-node active'; node.innerHTML = d;
+                          node.onclick = function() { triggerHaptic(); window.pendingFillDay = nodeDayNumber; checkTimeCapsule(); document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); document.getElementById('vibe-slider').value = 2; updateSunVibe(2); showScreen('screen-energy'); };
+                      }
+                  } else if (nodeDate < realToday) {
+                      if (isCompleted) {
+                          node.className = 'map-node completed'; node.innerHTML = '✓';
+                      } else {
+                          node.className = 'map-node available'; node.innerHTML = d;
+                          node.onclick = function() { triggerHaptic(); window.pendingFillDay = nodeDayNumber; checkTimeCapsule(); document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); document.getElementById('vibe-slider').value = 2; updateSunVibe(2); showScreen('screen-energy'); };
+                      }
                   } else {
-                      node.className = 'map-node active'; node.innerHTML = d;
-                      node.onclick = function() { triggerHaptic(); window.pendingFillDay = nodeDayNumber; checkTimeCapsule(); document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); document.getElementById('vibe-slider').value = 2; updateSunVibe(2); showScreen('screen-energy'); };
+                      node.className = 'map-node locked'; node.innerHTML = d;
                   }
-              } else if (nodeDate < realToday) {
-                  if (isCompleted) {
-                      node.className = 'map-node completed'; node.innerHTML = '✓';
-                  } else {
-                      node.className = 'map-node available'; node.innerHTML = d;
-                      node.onclick = function() { triggerHaptic(); window.pendingFillDay = nodeDayNumber; checkTimeCapsule(); document.getElementById('dashboard-art').style.backgroundImage = getRandomArtwork(); document.getElementById('vibe-slider').value = 2; updateSunVibe(2); showScreen('screen-energy'); };
-                  }
-              } else {
-                  node.className = 'map-node locked'; node.innerHTML = d;
+                  gridNode.appendChild(node);
               }
-              gridNode.appendChild(node);
           }
       }
     }
@@ -1166,12 +1290,239 @@
         }
         const targetInput = document.getElementById(targetId);
         if (finalTranscript) targetInput.value += (targetInput.value ? ' ' : '') + finalTranscript;
+        
+        const ev = new Event('input', { bubbles: true});
+        targetInput.dispatchEvent(ev);
       };
       btnElement.onclick = function() {
         triggerHaptic(); recognition.stop(); btnElement.classList.remove('recording'); btnElement.innerText = "🎤 Tap to Speak";
         btnElement.onclick = function() { startDictation(targetId, btnElement); };
       };
       recognition.start();
+    }
+
+    // --- HEAVY BURNER PHYSICS ---
+    function initHeavyBurner() {
+        const thought = document.getElementById('draggable-thought');
+        const input = document.getElementById('heavy-thought-input');
+        const canvas = document.getElementById('burner-canvas');
+        if (!thought || !canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        let isDragging = false;
+        let startX, startY;
+        let particles = [];
+        
+        function drawPit() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let gradient = ctx.createRadialGradient(100, 75, 10, 100, 75, 60);
+            gradient.addColorStop(0, 'rgba(217, 119, 87, 0.8)'); 
+            gradient.addColorStop(1, 'rgba(217, 119, 87, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.ellipse(100, 75, 60, 25, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function animateParticles() {
+            drawPit();
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life -= 0.02;
+                
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+            ctx.globalAlpha = 1;
+            if (particles.length > 0) requestAnimationFrame(animateParticles);
+        }
+
+        thought.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            thought.style.transition = 'none';
+            thought.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); 
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            thought.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx * 0.05}deg)`;
+        });
+
+        document.addEventListener('pointerup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            thought.style.cursor = 'grab';
+            
+            const thoughtRect = thought.getBoundingClientRect();
+            const canvasRect = canvas.getBoundingClientRect();
+            
+            const thoughtCenterX = thoughtRect.left + (thoughtRect.width / 2);
+            const thoughtCenterY = thoughtRect.top + (thoughtRect.height / 2);
+            const canvasCenterX = canvasRect.left + (canvasRect.width / 2);
+            const canvasCenterY = canvasRect.top + (canvasRect.height / 2);
+
+            const distance = Math.hypot(thoughtCenterX - canvasCenterX, thoughtCenterY - canvasCenterY);
+
+            if (distance < 50) {
+                thought.style.display = 'none';
+                triggerHaptic('heavy', 150);
+                playAppSound('chime');
+                
+                const mainInput = document.getElementById('anchor-input');
+                if (mainInput) mainInput.value = input.value;
+                
+                for (let i = 0; i < 40; i++) {
+                    particles.push({
+                        x: 100 + (Math.random() * 40 - 20),
+                        y: 75 + (Math.random() * 20 - 10),
+                        vx: (Math.random() - 0.5) * 4,
+                        vy: (Math.random() - 1) * 4,
+                        size: Math.random() * 4 + 2,
+                        life: 1,
+                        color: Math.random() > 0.5 ? '#2d3748' : '#d97757'
+                    });
+                }
+                animateParticles();
+            } else {
+                thought.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                thought.style.transform = 'translate(0px, 0px) rotate(0deg)';
+            }
+        });
+
+        drawPit(); 
+    }
+
+    function setupWordBloom() {
+        const bloomIcon = document.getElementById('bloom-icon');
+        const bloomText = document.getElementById('bloom-text');
+        const wordCount = document.getElementById('word-count');
+        const textarea = document.getElementById('anchor-input');
+        
+        if (!textarea || !bloomIcon) return;
+        
+        const BLOOM_STAGES = [
+          { min: 0, max: 10, icon: '🌱', text: 'Seedling' },
+          { min: 11, max: 25, icon: '🌿', text: 'Sprout' },
+          { min: 26, max: 50, icon: '🌸', text: 'Blooming' },
+          { min: 51, max: Infinity, icon: '🌺', text: 'Full Garden' },
+        ];
+        
+        let lastStage = -1;
+        
+        textarea.addEventListener('input', () => {
+          const text = textarea.value.trim();
+          const words = text.length === 0 ? 0 : text.split(/\s+/).length;
+          wordCount.textContent = words;
+          
+          let currentStage = 0;
+          for (let i = 0; i < BLOOM_STAGES.length; i++) {
+            if (words >= BLOOM_STAGES[i].min && words <= BLOOM_STAGES[i].max) {
+              currentStage = i; break;
+            }
+          }
+          
+          if (currentStage !== lastStage) {
+            const stage = BLOOM_STAGES[currentStage];
+            bloomIcon.textContent = stage.icon;
+            bloomIcon.classList.add('growing');
+            setTimeout(() => bloomIcon.classList.remove('growing'), 600);
+            bloomText.textContent = stage.text;
+            triggerHaptic('light', 20);
+            lastStage = currentStage;
+          }
+        });
+    }
+    
+    function setupWaxSeal() {
+        const SEAL_HOLD_TIME = 1000;
+        const SEAL_CIRCUMFERENCE = 2 * Math.PI * 54;
+        const sealButton = document.getElementById('wax-seal-button');
+        const progressCircle = document.querySelector('.seal-progress-circle');
+        
+        if (!sealButton) return;
+
+        let sealStartTime = 0;
+        let sealIntervalId = null;
+        let isSealAnimating = false;
+        
+        function startSeal(e) {
+            if (isSealAnimating) return;
+            sealStartTime = Date.now();
+            sealButton.classList.add('pressing');
+            triggerHaptic('light', 30);
+            
+            sealIntervalId = setInterval(() => {
+                const elapsed = Date.now() - sealStartTime;
+                const progress = Math.min(elapsed / SEAL_HOLD_TIME, 1);
+                const offset = SEAL_CIRCUMFERENCE * (1 - progress);
+                if (progressCircle) {
+                    progressCircle.style.strokeDasharray = SEAL_CIRCUMFERENCE;
+                    progressCircle.style.strokeDashoffset = offset;
+                }
+                if (elapsed % 200 >= 0 && elapsed % 200 < 30) triggerHaptic('medium', 20);
+            }, 30);
+        }
+        
+        function endSeal(e) {
+            if (!sealStartTime) return;
+            clearInterval(sealIntervalId);
+            const holdTime = Date.now() - sealStartTime;
+            sealButton.classList.remove('pressing');
+            
+            if (holdTime >= SEAL_HOLD_TIME && !isSealAnimating) {
+                isSealAnimating = true;
+                triggerHaptic('heavy', 100);
+                playAppSound('chime');
+                playWaxSealAnimation(sealButton);
+                setTimeout(() => { sealEntry(); }, 800);
+            } else {
+                if (progressCircle) progressCircle.style.strokeDashoffset = SEAL_CIRCUMFERENCE;
+            }
+            sealStartTime = 0;
+        }
+        
+        sealButton.addEventListener('touchstart', startSeal, {passive: true});
+        sealButton.addEventListener('mousedown', (e) => { if(e.pointerType !== 'touch') startSeal(e); });
+        
+        document.addEventListener('touchend', endSeal);
+        document.addEventListener('touchcancel', endSeal);
+        document.addEventListener('mouseup', endSeal);
+    }
+    
+    function playWaxSealAnimation(btn) {
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const distance = 60;
+            const rect = btn.getBoundingClientRect();
+            const x = rect.left + (rect.width/2) + Math.cos(angle) * distance;
+            const y = rect.top + (rect.height/2) + Math.sin(angle) * distance;
+            
+            const particle = document.createElement('div');
+            particle.className = 'wax-particle melting';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.textContent = '💧';
+            particle.style.fontSize = '1.5rem';
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 800);
+        }
+        const splash = document.createElement('div');
+        splash.className = 'seal-success-splash';
+        splash.textContent = '✨';
+        document.body.appendChild(splash);
+        setTimeout(() => splash.remove(), 600);
     }
 
     function openJournalToday(mode) {
@@ -1182,25 +1533,46 @@
       
       document.body.style.backgroundColor = (mode === 'Radiant') ? '#fff9e6' : (mode === 'Heavy') ? '#e2e8f0' : 'var(--bg-color)'; 
 
-      let anchorPrompt = "What is one thing from today you wouldn't want to forget?";
-      if (mode === 'Heavy') anchorPrompt = "What weighed upon you today?";
-      else if (mode === 'Radiant') anchorPrompt = "What made you so happy today?";
+      let html = '';
 
-      let html = `
-        <div class="section-title">${anchorPrompt}</div>
-        <div class="question-block" style="margin-bottom: 2.5rem;">
-          <button type="button" class="mic-btn" onclick="startDictation('anchor-input', this)">🎤 Tap to Speak</button>
-          <textarea id="anchor-input" class="journal-input" rows="4" placeholder="Type or speak in any language..."></textarea>
-        </div>
-      `;
+      if (mode === 'Heavy') {
+          let anchorPrompt = "What weighed upon you today?";
+          html += `
+            <div class="section-title">${anchorPrompt}</div>
+            <div class="question-block" style="margin-bottom: 2.5rem;">
+              <div id="burner-ritual-container" style="position: relative; width: 100%; height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; overflow: hidden; background: rgba(0,0,0,0.05); border-radius: 16px; margin-bottom: 2rem;">
+                  <div id="draggable-thought" style="padding: 15px; background: white; border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 80%; text-align: center; z-index: 10; touch-action: none; cursor: grab;">
+                      <textarea id="heavy-thought-input" rows="3" placeholder="Type what's weighing on you..." style="width: 100%; border: none; outline: none; background: transparent; text-align: center; font-style: italic; resize: none; font-size: 1rem;"></textarea>
+                      <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">Drag me into the fire ↓</div>
+                  </div>
+                  <canvas id="burner-canvas" width="200" height="150" style="margin-bottom: 10px;"></canvas>
+              </div>
+              <textarea id="anchor-input" style="display:none;"></textarea>
+            </div>
+          `;
+      } else {
+          let anchorPrompt = mode === 'Radiant' ? "What made you so happy today?" : "What is one thing from today you wouldn't want to forget?";
+          html += `
+            <div class="section-title">${anchorPrompt}</div>
+            <div class="question-block" style="margin-bottom: 2.5rem;">
+              <div class="word-bloom-container">
+                <div class="bloom-progress">
+                  <span class="bloom-icon" id="bloom-icon">🌱</span>
+                  <span id="bloom-text">Start typing to grow your thoughts...</span>
+                  <span class="word-count" id="word-count">0</span>
+                </div>
+              </div>
+              <button type="button" class="mic-btn" onclick="startDictation('anchor-input', this)">🎤 Tap to Speak</button>
+              <textarea id="anchor-input" class="journal-input" rows="4" placeholder="Type or speak in any language..."></textarea>
+            </div>
+          `;
 
-      if (mode !== 'Heavy') {
           let quickTicksList = getDailyQuickTicks();
           let ticksHtml = quickTicksList.map((tick, index) => {
               let escapedTick = tick.replace(/'/g, "\\'").replace(/"/g, "&quot;");
               return `
                 <div class="tick-wrapper" id="wrapper-tick-${index}" data-tick="${escapedTick}">
-                  <button type="button" id="btn-tick-${index}" class="tick-chip" onclick="toggleTickSelectionWithElab(${index}, '${escapedTick}')">${tick}</button>
+                  <button type="button" id="btn-tick-${index}" class="tick-chip" onclick="toggleTickSelectionWithElab(${index}, '${escapedTick}', event)">${tick}</button>
                   <textarea id="elab-tick-${index}" class="tick-elab journal-input" rows="2" placeholder="Tell me more... (optional)"></textarea>
                 </div>
               `;
@@ -1222,18 +1594,44 @@
           <input type="text" id="photo-context-input" class="journal-input" placeholder="Describe this photo in a short sentence..." style="margin-top:10px; display:none;">
         </div>
 
-        <button type="button" class="btn" id="seal-btn" onclick="triggerHaptic(); sealEntry()" style="margin-top: 1.5rem;">Seal Today's Entry</button>
+        <div style="text-align: center; margin: 3rem 0;">
+          <button id="wax-seal-button" class="seal-button" title="Hold to seal your entry">
+            🔴
+            <svg class="seal-progress-ring" width="120" height="120">
+              <circle cx="60" cy="60" r="54" class="seal-progress-circle"/>
+            </svg>
+          </button>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">Hold to seal your entry ⏱️</p>
+        </div>
       `;
 
       container.innerHTML = html;
       showScreen('screen-journal');
+      
+      if (mode === 'Heavy') {
+          setTimeout(() => initHeavyBurner(), 100);
+      } else {
+          setupWordBloom();
+      }
+      setupWaxSeal();
     }
 
-    function toggleTickSelectionWithElab(index, tickText) {
+    function toggleTickSelectionWithElab(index, tickText, event) {
         triggerHaptic();
+        playAppSound('click');
         const wrapper = document.getElementById('wrapper-tick-' + index);
         const btn = document.getElementById('btn-tick-' + index);
         const elab = document.getElementById('elab-tick-' + index);
+
+        if (event) {
+            const ripple = document.createElement('div');
+            ripple.className = 'tick-bubble-ripple';
+            const rect = btn.getBoundingClientRect();
+            ripple.style.left = (event.clientX - rect.left) + 'px';
+            ripple.style.top = (event.clientY - rect.top) + 'px';
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
 
         if (window.selectedTicks.has(tickText)) {
             window.selectedTicks.delete(tickText);
@@ -1250,27 +1648,7 @@
         }
     }
 
-    function handleDailyImageUpload(event) {
-      const file = event.target.files[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 800; const MAX_HEIGHT = 800;
-          let width = img.width; let height = img.height;
-          if (width > height && width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-          else if (height > MAX_WIDTH) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-          canvas.width = width; canvas.height = height;
-          const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.6); tempDailyPhotoBase64 = dataUrl.split(',')[1];
-          document.getElementById('daily-preview-image').src = dataUrl; document.getElementById('daily-preview-image').style.display = 'block'; document.getElementById('photo-context-input').style.display = 'block';
-        }; img.src = e.target.result;
-      }; reader.readAsDataURL(file);
-    }
-
     async function sealEntry() {
-      const btn = document.getElementById('seal-btn'); btn.innerText = "Encrypting & Analyzing..."; btn.disabled = true;
       document.body.style.backgroundColor = 'var(--bg-color)';
 
       let tickData = [];
@@ -1338,7 +1716,23 @@
       const vibeMap = { 'Heavy': '☁️ Heavy', 'Balanced': '🌤️ Balanced', 'Radiant': '☀️ Radiant' };
       document.getElementById('climax-vibe-text').innerText = vibeMap[entryData.energy] || entryData.energy;
       
-      document.getElementById('climax-ticks-text').innerText = entryData.quickTicks.length > 0 ? entryData.quickTicks.join(' • ') : '';
+      let ticksDisplayHtml = '';
+      if (entryData.ticksDetailed && entryData.ticksDetailed.length > 0) {
+          ticksDisplayHtml = entryData.ticksDetailed.map(t => {
+              if(t.includes('(Elaboration:')) {
+                  let parts = t.split('(Elaboration:');
+                  let main = parts[0].trim();
+                  let elab = parts[1].replace(')', '').trim();
+                  return `<div style="margin-bottom:6px;"><strong>${main}</strong><br><span style="opacity:0.85; font-size:0.85rem;">"${elab}"</span></div>`;
+              }
+              return `<div style="margin-bottom:6px;">${t}</div>`;
+          }).join('');
+      } else if (entryData.quickTicks && entryData.quickTicks.length > 0) {
+          ticksDisplayHtml = entryData.quickTicks.join(' • ');
+      }
+      
+      document.getElementById('climax-ticks-text').innerHTML = ticksDisplayHtml;
+      
       document.getElementById('climax-anchor-text').innerText = entryData.anchor ? `"${entryData.anchor}"` : '';
       document.getElementById('climax-anchor-text').style.display = entryData.anchor ? 'block' : 'none';
       
@@ -1347,10 +1741,12 @@
       
       document.getElementById('climax-echo-text').innerText = entryData.echo;
       
-      // ALways show translate button
-      document.getElementById('translate-echo-btn').style.display = 'inline-block';
-      document.getElementById('translate-echo-btn').innerText = 'Translate to my language';
-      document.getElementById('translate-echo-btn').disabled = false;
+      const translateBtn = document.getElementById('translate-echo-btn');
+      if(translateBtn) {
+          translateBtn.style.display = 'inline-block';
+          translateBtn.innerText = 'Translate to my language';
+          translateBtn.disabled = false;
+      }
 
       let entryIndex = allEntries.findIndex(e => e.day === entryData.day);
       if (entryIndex !== -1) { allEntries[entryIndex] = entryData; } else { allEntries.push(entryData); }
@@ -1362,10 +1758,15 @@
     async function translateEcho() {
         const btn = document.getElementById('translate-echo-btn');
         const echoEl = document.getElementById('climax-echo-text');
-        const userText = document.getElementById('anchor-input') ? document.getElementById('anchor-input').value.trim() : "";
+        
+        let userText = document.getElementById('anchor-input') ? document.getElementById('anchor-input').value.trim() : "";
+        document.querySelectorAll('.tick-elab').forEach(el => {
+            if(el.value.trim()) userText += " " + el.value.trim();
+        });
+        
         if (!window.currentEchoText) return;
 
-        let targetLanguage = userText ? `the language/script of this text: "${userText}"` : null;
+        let targetLanguage = userText.trim().length > 0 ? `the language/script of this text: "${userText}"` : null;
         if (!targetLanguage) {
             let promptedLang = prompt("What language should I translate to? (e.g., Hindi, Spanish, French)");
             if (!promptedLang) return;
@@ -1381,6 +1782,7 @@
             const response = await fetchWithTimeout(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{text: promptStr}] }] }) }, 10000);
             const data = await response.json();
             echoEl.innerText = data.candidates[0].content.parts[0].text.trim();
+            btn.style.display = 'inline-block';
             btn.innerText = "Translated";
         } catch (e) {
             btn.innerText = "Translate"; btn.disabled = false; alert("Translation failed.");
@@ -1393,7 +1795,28 @@
       html2canvas(document.getElementById('climax-capture-area'), { useCORS: true, backgroundColor: null }).then(canvas => {
         let link = document.createElement('a'); link.download = `Day_${window.pendingFillDay}_Memory.png`; link.href = canvas.toDataURL("image/png"); link.click(); btn.innerText = originalText; btn.disabled = false;
         document.getElementById('translate-echo-btn').style.display = 'inline-block';
-      }).catch(err => { btn.innerText = originalText; btn.disabled = false; });
+      }).catch(err => { btn.innerText = originalText; btn.disabled = false; document.getElementById('translate-echo-btn').style.display = 'inline-block'; });
+    }
+    
+    function downloadMilestone() {
+      triggerHaptic();
+      const btn = document.getElementById('milestone-download-btn'); 
+      const originalText = btn.innerText; 
+      btn.innerText = "Saving..."; 
+      btn.disabled = true;
+      
+      const imgSrc = document.getElementById('generated-milestone-img').src;
+      if (imgSrc && imgSrc.length > 10) {
+        let link = document.createElement('a'); 
+        link.download = `Artifact_Day_${window.pendingFillDay}.jpg`; 
+        link.href = imgSrc; 
+        link.click(); 
+      }
+      
+      setTimeout(() => {
+        btn.innerText = originalText; 
+        btn.disabled = false;
+      }, 1000);
     }
 
     function advanceFromClimax() {
@@ -1454,7 +1877,7 @@
 
         try {
             const apiKey = userSetup.apiKey;
-            const textSummaries = recentEntries.map(e => `Day ${e.day} Mood: ${e.energy}. Note: "${e.anchor}". Ticks: ${e.quickTicks ? e.quickTicks.join(',') : ''}`).join(" | ");
+            const textSummaries = recentEntries.map(e => `Day ${e.day} Mood: ${e.energy}. Note: "${e.anchor}". Details: "${e.ticksDetailed ? e.ticksDetailed.join(' | ') : ''}"`).join(" || ");
             const prompt = `You are an observant AI reviewing a user's journal entries for the past week. Data: ${textSummaries}. Write exactly 1 warm, empathetic sentence starting with "A little thread I noticed..." that observes a gentle pattern, recurring feeling, or insight from this data. Output ONLY a JSON object: {"thread": "..."}`;
             
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
@@ -1562,7 +1985,7 @@
 
       try {
         const apiKey = userSetup.apiKey; const recentEntries = allEntries.slice(-7);
-        const summaries = recentEntries.map(e => `Day ${e.day}: Mood=${e.energy}, Note="${e.anchor}" ${e.weeklyThread ? '| Weekly Note: '+e.weeklyThread : ''}`).join(" | ");
+        const summaries = recentEntries.map(e => `Day ${e.day}: Mood=${e.energy}, Note="${e.anchor}", Details="${e.ticksDetailed ? e.ticksDetailed.join(' | ') : ''}" ${e.weeklyThread ? '| Weekly Note: '+e.weeklyThread : ''}`).join(" || ");
         const flashUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
         
         const directorPrompt = `SYSTEM ROLE: You are the Playful & Creative Memory Director for a private personal journal. Analyze user text data and output a fun, vivid, imaginative setting for an image generator. USER DATA: ${summaries} INSTRUCTIONS: 1. Write ONE 2-sentence whimsical or playful observation based on their week. Avoid therapy-speak. Put this in "revelation". OUTPUT ONLY valid JSON exactly matching: {"revelation": "..."}`;
